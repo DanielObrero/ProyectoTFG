@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -21,11 +18,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import org.w3c.dom.Text
 import java.util.regex.Pattern
 
 
 class MainActivity : AppCompatActivity() {
-
+    var progressBar: ProgressBar?=null
+    var tvdatossesion: TextView?=null
+    var authlayout: LinearLayout?=null
     val pattern: Pattern = Patterns.EMAIL_ADDRESS
     private  val GOOGLE_SIGN_IN=100
     private val db = Firebase.firestore
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setup()
         session()
+
     }
 
     override fun onStart() {
@@ -63,6 +64,9 @@ class MainActivity : AppCompatActivity() {
         var contraseñaButton: Button=findViewById(R.id.ContraseñaButton)
         var emailEditText: EditText=findViewById(R.id.emailEditText)
         var PasswordEditText: EditText=findViewById(R.id.passwordEditText)
+        authlayout=findViewById(R.id.authLayout)
+        progressBar=findViewById(R.id.progressBar)
+        tvdatossesion=findViewById(R.id.tvdatossesion)
 
         signUpButton.setOnClickListener{
             showRegister("")
@@ -93,6 +97,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
         googleButton.setOnClickListener {
+
+            progressBar!!.visibility=View.VISIBLE
             val googleConf=GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("630915479165-n7rff65cs04rnrql6ekp3ocu11uiji8r.apps.googleusercontent.com")
                 .requestEmail()
@@ -108,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 setTitle("Cambio de contraseña")
                 setView(dialog)
                 setPositiveButton("Enviar") { _, i ->
-                    Log.d("Datos", dialog.findViewById<EditText>(R.id.etcorreoCC).toString())
+
                     if (dialog.findViewById<EditText>(R.id.etcorreoCC).text.toString()
                             .isNotEmpty()
                     ) {
@@ -141,6 +147,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         if(requestCode==GOOGLE_SIGN_IN){
         val task=GoogleSignIn.getSignedInAccountFromIntent(data)
             try{
@@ -151,6 +158,8 @@ class MainActivity : AppCompatActivity() {
                     FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener{
 
                         if(it.isSuccessful){
+                            tvdatossesion!!.visibility=View.VISIBLE
+                            authlayout!!.visibility=View.GONE
                             Comprobacion(account.email.toString())
 
                         } else{
@@ -195,7 +204,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showHome(email:String){
-
+        progressBar!!.visibility=View.GONE
+        tvdatossesion!!.visibility=View.GONE
+        authlayout!!.visibility=View.VISIBLE
         val homeIntent=Intent(this,HomeActivity::class.java).apply {
             putExtra("email",email)
 
