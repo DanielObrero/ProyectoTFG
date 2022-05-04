@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setup()
         session()
-
+        progressBar!!.visibility=View.GONE
+        tvdatossesion!!.visibility=View.GONE
     }
 
     override fun onStart() {
@@ -105,12 +106,13 @@ class MainActivity : AppCompatActivity() {
                 .build()
             val googleClient=GoogleSignIn.getClient(this,googleConf)
             googleClient.signOut()
+
             startActivityForResult(googleClient.signInIntent,GOOGLE_SIGN_IN)
         }
         contraseñaButton.setOnClickListener {
             val dialog=layoutInflater.inflate(R.layout.cambio_password,null)
 
-            MaterialAlertDialogBuilder(this).apply {
+            var dialogq =MaterialAlertDialogBuilder(this).apply {
                 setTitle("Cambio de contraseña")
                 setView(dialog)
                 setPositiveButton("Enviar") { _, i ->
@@ -140,6 +142,8 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }.show()
+
+
             //
         }
 
@@ -149,6 +153,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if(requestCode==GOOGLE_SIGN_IN){
+            progressBar!!.visibility=View.GONE
         val task=GoogleSignIn.getSignedInAccountFromIntent(data)
             try{
                 val account=task.getResult(ApiException::class.java)
@@ -159,6 +164,7 @@ class MainActivity : AppCompatActivity() {
 
                         if(it.isSuccessful){
                             tvdatossesion!!.visibility=View.VISIBLE
+                            progressBar!!.visibility=View.VISIBLE
                             authlayout!!.visibility=View.GONE
                             Comprobacion(account.email.toString())
 
@@ -171,7 +177,11 @@ class MainActivity : AppCompatActivity() {
                 showAlert(0)
             }
 
-    }}
+    }else{
+            progressBar!!.visibility=View.GONE
+        }
+
+    }
 
     private fun showAlert(i:Int){
 
@@ -237,8 +247,12 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 if (ia==document.size()){
+                    progressBar!!.visibility=View.VISIBLE
+                    tvdatossesion!!.visibility=View.GONE
+                    authlayout!!.visibility=View.GONE
                         showaditional(email)
                     }
+
             }
             .addOnFailureListener { exception ->
             }

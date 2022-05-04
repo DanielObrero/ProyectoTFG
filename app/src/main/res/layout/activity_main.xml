@@ -133,6 +133,18 @@
         app:layout_constraintTop_toBottomOf="@+id/progressBar"
         tools:layout_editor_absoluteX="16dp" />
 
+    <TextView
+        android:id="@+id/tvdatossesion2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cargando Datos"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        tools:layout_editor_absoluteX="16dp" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
