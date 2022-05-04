@@ -217,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         progressBar!!.visibility=View.GONE
         tvdatossesion!!.visibility=View.GONE
         authlayout!!.visibility=View.VISIBLE
-        val homeIntent=Intent(this,HomeActivity::class.java).apply {
+        val homeIntent=Intent(this,MenuActivity::class.java).apply {
             putExtra("email",email)
 
         }
