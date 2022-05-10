@@ -1,17 +1,13 @@
-package com.example.proyectotfg.fragments
+package com.example.proyectotfg.Principal.Guia
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.proyectotfg.R
 import com.example.proyectotfg.databinding.FragmentHomeBinding
-import com.example.proyectotfg.databinding.FragmentProfileBinding
 
-class HomeFragment : Fragment() {
+class HomeFragmentG : Fragment() {
     private lateinit var mBinding: FragmentHomeBinding
 
 

@@ -3,28 +3,28 @@
     package="com.example.proyectotfg">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/img_logo"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTFG">
         <activity
-            android:name=".MenuActivity"
+            android:name=".Principal.Guia.MenuActivityG"
             android:exported="false" />
         <activity
-            android:name=".pag_DatosAdicionales"
+            android:name=".Principal.Turista.MenuActivityT"
             android:exported="false" />
         <activity
-            android:name=".pag_Registro"
+            android:name=".Login.pag_DatosAdicionales"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".Login.pag_Registro"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.example.proyectotfg.fragments
+package com.example.proyectotfg.Principal.Guia
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

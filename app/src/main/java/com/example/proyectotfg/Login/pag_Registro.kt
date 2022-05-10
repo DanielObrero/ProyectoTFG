@@ -1,4 +1,4 @@
-package com.example.proyectotfg
+package com.example.proyectotfg.Login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,10 +6,9 @@ import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.example.proyectotfg.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.auth.FirebaseAuth
 import java.util.regex.Pattern
 
 class pag_Registro : AppCompatActivity() {
@@ -50,7 +49,7 @@ class pag_Registro : AppCompatActivity() {
     }
 
     private fun datosadicionales(email: String, pass: String) {
-        val datosadicionalesIntent= Intent(this,pag_DatosAdicionales::class.java).apply {
+        val datosadicionalesIntent= Intent(this, pag_DatosAdicionales::class.java).apply {
             putExtra("emailini",email)
             putExtra("passini",pass)
             putExtra("provider","BASIC")
@@ -101,7 +100,7 @@ class pag_Registro : AppCompatActivity() {
     }
 
     private fun showLogin() {
-        val intent= Intent(this,MainActivity::class.java)
+        val intent= Intent(this, MainActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }

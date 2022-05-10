@@ -1,12 +1,12 @@
-package com.example.proyectotfg
+package com.example.proyectotfg.Login
 
-import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import com.example.proyectotfg.R
+import com.example.proyectotfg.Principal.Guia.MenuActivityG
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -74,7 +74,11 @@ class pag_DatosAdicionales : AppCompatActivity() {
                 .addOnCompleteListener{
                     if(it.isSuccessful){
 
+
                         subir(email,nombre, Papellido, Sapellido, telefono, tipo)
+
+
+
                     } else{
                         MaterialAlertDialogBuilder(this).apply {
                             setTitle("Error de Registro")
@@ -101,12 +105,16 @@ class pag_DatosAdicionales : AppCompatActivity() {
 
                 )
             ).addOnSuccessListener { documentReference ->
-                MaterialAlertDialogBuilder(this).apply {
+                var dialogq = MaterialAlertDialogBuilder(this).apply {
                     setTitle("Nuevo Usuario")
-                    setMessage("Usuario Registrado con existo")
-                    setPositiveButton("Aceptar",null).show()
-                }
-                showHome(email)
+                    setCancelable(false)
+                    setMessage("Usuario Registrado con éxito")
+                    setPositiveButton("Aceptar") { _, i ->
+                        showHome(email)
+                    }
+
+                }.show()
+
             }
             .addOnFailureListener { e ->
                 MaterialAlertDialogBuilder(this).apply {
@@ -130,13 +138,13 @@ class pag_DatosAdicionales : AppCompatActivity() {
     }
 
     private fun showLogin() {
-        val intent= Intent(this,MainActivity::class.java)
+        val intent= Intent(this, MainActivity::class.java)
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
     private fun showHome(email:String){
 
-        val homeIntent=Intent(this,HomeActivity::class.java).apply {
+        val homeIntent=Intent(this, MenuActivityG::class.java).apply {
             putExtra("email",email)
         }
         startActivity(homeIntent)

@@ -1,4 +1,4 @@
-package com.example.proyectotfg
+package com.example.proyectotfg.Login
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.proyectotfg.R
+import com.example.proyectotfg.Principal.Guia.MenuActivityG
+import com.example.proyectotfg.Principal.Turista.MenuActivityT
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -18,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import org.w3c.dom.Text
 import java.util.regex.Pattern
 
 
@@ -47,11 +49,13 @@ class MainActivity : AppCompatActivity() {
     private fun session(){
         val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         val email=prefs.getString("email",null)
+        val prefs2=getSharedPreferences("Tipodeusu", Context.MODE_PRIVATE)
+        val TU=prefs.getString("tipo",null)
 
-        if(email!=null){
+        if(email!=null&&TU!=null){
             var authLayout: LinearLayout =findViewById(R.id.authLayout)
             authLayout.visibility= View.INVISIBLE
-            showHome(email)
+            showHome(email,TU)
         }
     }
 
@@ -213,20 +217,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun showHome(email:String){
+    private fun showHome(email:String,comp:String){
         progressBar!!.visibility=View.GONE
         tvdatossesion!!.visibility=View.GONE
         authlayout!!.visibility=View.VISIBLE
-        val homeIntent=Intent(this,MenuActivity::class.java).apply {
-            putExtra("email",email)
+        var homeIntent: Intent? = null
+        if (comp=="0"){
+            homeIntent=Intent(this, MenuActivityG::class.java).apply {
+                putExtra("email",email)
+                putExtra("tipo",comp)
+
+            }
+
+        }
+        if (comp=="1"){
+            homeIntent=Intent(applicationContext, MenuActivityT::class.java).apply {
+                putExtra("email",email)
+                putExtra("tipo",comp)
+
+            }
 
         }
         startActivity(homeIntent)
+
     }
 
     private fun showRegister(email:String){
 
-        val registerIntent=Intent(this,pag_Registro::class.java).apply {
+        val registerIntent=Intent(this, pag_Registro::class.java).apply {
             putExtra("emailr",email)
 
         }
@@ -241,8 +259,15 @@ class MainActivity : AppCompatActivity() {
                 for (i in document.documents){
                     ia++
                     if (i.id.compareTo(email)==0) {
-                        showHome(email)
+                        if (i.get("Tipo de Usuario").toString().compareTo("Guia")==0){
+                            showHome(email,"0")
+                        }
+                        if (i.get("Tipo de Usuario").toString().compareTo("Turista")==0){
+                            showHome(email,"1")
+                        }
                         ia=0
+
+
                         break
                     }
                 }
@@ -259,7 +284,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showaditional(email: String) {
-        val registerIntent=Intent(this,pag_DatosAdicionales::class.java).apply {
+        val registerIntent=Intent(this, pag_DatosAdicionales::class.java).apply {
             putExtra("emailr",email)
             putExtra("provider","GOOGLE")
         }

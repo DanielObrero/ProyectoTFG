@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pag_DatosAdicionales">
+    tools:context=".Login.pag_DatosAdicionales">
 
     <ScrollView
         android:layout_width="match_parent"

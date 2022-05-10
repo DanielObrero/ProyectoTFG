@@ -1,28 +1,28 @@
-package com.example.proyectotfg
+package com.example.proyectotfg.Principal.Turista
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.proyectotfg.fragments.HomeFragment
-import com.example.proyectotfg.fragments.OpinionsFragment
-import com.example.proyectotfg.fragments.ProfileFragment
-import com.example.proyectotfg.utils.FragmentAux
+import com.example.proyectotfg.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MenuActivity : AppCompatActivity() {
+class MenuActivityT : AppCompatActivity() {
     private lateinit var mActiveFragment: Fragment
     private var mFragmentManager: FragmentManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_menu)
+        setContentView(R.layout.activity_menu_turista)
 
         var bundle:Bundle?=intent.extras
         var email:String?=bundle?.getString("email")
+        var tu:String?=bundle?.getString("tipo")
         val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
         prefs.putString("email",email)
+        prefs.putString("tipo",tu)
         prefs.apply()
         mFragmentManager = supportFragmentManager
         setupBottomNav(mFragmentManager!!)
@@ -35,34 +35,34 @@ class MenuActivity : AppCompatActivity() {
             }
         }
 
-        val homeFragment = HomeFragment()
-        val addFragment = OpinionsFragment()
-        val profileFragment = ProfileFragment()
+        val homeFragment = HomeFragmentT()
+        val routesFragment = RoutesFragment()
+        val profileFragment = ProfileFragmentT()
 
         mActiveFragment = homeFragment
 
         fragmentManager.beginTransaction()
-            .add(R.id.hostFrament, profileFragment, ProfileFragment::class.java.name)
+            .add(R.id.hostFramentT, profileFragment, ProfileFragmentT::class.java.name)
             .hide(profileFragment).commit()
         fragmentManager.beginTransaction()
-            .add(R.id.hostFrament, addFragment, OpinionsFragment::class.java.name)
-            .hide(addFragment).commit()
+            .add(R.id.hostFramentT, routesFragment, RoutesFragment::class.java.name)
+            .hide(routesFragment).commit()
         fragmentManager.beginTransaction()
-            .add(R.id.hostFrament, homeFragment, HomeFragment::class.java.name).commit()
+            .add(R.id.hostFramentT, homeFragment, HomeFragmentT::class.java.name).commit()
 
-       findViewById<BottomNavigationView>(R.id.bottomnav).setOnItemSelectedListener {
+       findViewById<BottomNavigationView>(R.id.bottomnavT).setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.action_home -> {
+                R.id.action_homeT -> {
                     fragmentManager.beginTransaction().hide(mActiveFragment).show(homeFragment).commit()
                     mActiveFragment = homeFragment
                     true
                 }
-                R.id.action_add -> {
-                    fragmentManager.beginTransaction().hide(mActiveFragment).show(addFragment).commit()
-                    mActiveFragment = addFragment
+                R.id.action_routes -> {
+                    fragmentManager.beginTransaction().hide(mActiveFragment).show(routesFragment).commit()
+                    mActiveFragment = routesFragment
                     true
                 }
-                R.id.action_profile -> {
+                R.id.action_profileT -> {
                     fragmentManager.beginTransaction().hide(mActiveFragment).show(profileFragment).commit()
                     mActiveFragment = profileFragment
                     true
