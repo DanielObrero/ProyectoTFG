@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser
 class SnapshotsApplication : Application() {
     companion object {
         const val PATH_PERFILES = "Perfiles"
+        const val PATH_RUTAS = "Rutas"
         const val PROPERTY_LIKE_LIST = "likeList"
 
         lateinit var currentUser: FirebaseUser

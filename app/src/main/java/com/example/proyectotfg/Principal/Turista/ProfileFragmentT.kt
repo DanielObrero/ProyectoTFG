@@ -44,7 +44,7 @@ class ProfileFragmentT : Fragment() {
                 postSnapshot(email2?:"",it.data?.data)
 
 
-                    cambiarimagen(email2?:"")
+
 
 
 
@@ -187,9 +187,13 @@ class ProfileFragmentT : Fragment() {
 
             myStorageRef.putFile(mPhotoSelectedUri!!)
                 .addOnProgressListener {
-
+                    mBinding.imageButton.visibility=View.INVISIBLE
+                    mBinding.progressBar2.visibility=View.VISIBLE
+                    cambiarimagen(email)
                 }
                 .addOnCompleteListener {
+                    mBinding.progressBar2.visibility=View.GONE
+                    mBinding.imageButton.visibility=View.VISIBLE
 
                 }
                 .addOnSuccessListener {

@@ -3,7 +3,8 @@
     package="com.example.proyectotfg">
 
     <uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/img_logo"
@@ -11,6 +12,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTFG">
+        <activity
+            android:name=".Principal.Guia.MainActivityverruta"
+            android:exported="false" />
+        <activity
+            android:name=".Principal.Guia.MainActivityvistademonumentos"
+            android:exported="false" />
+        <activity
+            android:name=".Principal.Guia.MainActivityaddmonument"
+            android:exported="false" />
+        <activity
+            android:name=".Principal.Guia.MainActivityadd"
+            android:exported="false" />
         <activity
             android:name=".Principal.Guia.MenuActivityG"
             android:exported="false" />

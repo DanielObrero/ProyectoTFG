@@ -1,12 +1,17 @@
 package com.example.proyectotfg.Principal.Guia
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.proyectotfg.Login.MainActivity
+import com.example.proyectotfg.Principal.Turista.ChatFragmentT
 import com.example.proyectotfg.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 
 class MenuActivityG : AppCompatActivity() {
     private lateinit var mActiveFragment: Fragment
@@ -36,6 +41,7 @@ class MenuActivityG : AppCompatActivity() {
 
         val homeFragment = HomeFragmentG()
         val addFragment = OpinionsFragment()
+        val chatfragment = ChatFragmentG()
         val profileFragment = ProfileFragmentG()
 
         mActiveFragment = homeFragment
@@ -43,6 +49,9 @@ class MenuActivityG : AppCompatActivity() {
         fragmentManager.beginTransaction()
             .add(R.id.hostFramentG, profileFragment, ProfileFragmentG::class.java.name)
             .hide(profileFragment).commit()
+        fragmentManager.beginTransaction()
+            .add(R.id.hostFramentG, chatfragment, ChatFragmentG::class.java.name)
+            .hide(chatfragment).commit()
         fragmentManager.beginTransaction()
             .add(R.id.hostFramentG, addFragment, OpinionsFragment::class.java.name)
             .hide(addFragment).commit()
@@ -61,6 +70,11 @@ class MenuActivityG : AppCompatActivity() {
                     mActiveFragment = addFragment
                     true
                 }
+                R.id.action_chatG -> {
+                    fragmentManager.beginTransaction().hide(mActiveFragment).show(chatfragment).commit()
+                    mActiveFragment = chatfragment
+                    true
+                }
                 R.id.action_profileG -> {
                     fragmentManager.beginTransaction().hide(mActiveFragment).show(profileFragment).commit()
                     mActiveFragment = profileFragment
@@ -71,5 +85,23 @@ class MenuActivityG : AppCompatActivity() {
         }
 
 
+    }
+    override fun onBackPressed() {
+        var dialogq = MaterialAlertDialogBuilder(this).apply {
+            setTitle("Advertencia")
+            setCancelable(false)
+            setMessage("¿Deseas cerrar sesión?")
+            setPositiveButton("Aceptar") { _, i ->
+                val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)!!.edit()
+                prefs.clear()
+                prefs.apply()
+                FirebaseAuth.getInstance().signOut()
+                val intent= Intent(context, MainActivity::class.java)
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }
+            setNegativeButton("Cancelar",null)
+
+        }.show()
     }
 }

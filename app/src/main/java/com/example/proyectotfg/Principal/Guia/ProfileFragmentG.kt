@@ -44,7 +44,7 @@ class ProfileFragmentG : Fragment() {
                 postSnapshot(email2?:"",it.data?.data)
 
 
-                    cambiarimagen(email2?:"")
+
 
 
 
@@ -75,7 +75,7 @@ class ProfileFragmentG : Fragment() {
             var dialogq = MaterialAlertDialogBuilder(requireContext()).apply {
                 setTitle("Advertencia")
                 setCancelable(false)
-                setMessage("Si desea cambiar la foto, debe de saber que tiene que reiniciar la aplicacion o cerrar sesión para aplicar los cambios")
+                setMessage("¿Deseas cambias la foto de perfil?")
                 setPositiveButton("Aceptar") { _, i ->
                     setupFirebase(email?:"")
                     openGallery(email?:"")
@@ -187,9 +187,13 @@ class ProfileFragmentG : Fragment() {
 
             myStorageRef.putFile(mPhotoSelectedUri!!)
                 .addOnProgressListener {
-
+                    mBinding.imageButton.visibility=View.INVISIBLE
+                    mBinding.progressBar2.visibility=View.VISIBLE
+                    cambiarimagen(email)
                 }
                 .addOnCompleteListener {
+                    mBinding.progressBar2.visibility=View.GONE
+                    mBinding.imageButton.visibility=View.VISIBLE
 
                 }
                 .addOnSuccessListener {
