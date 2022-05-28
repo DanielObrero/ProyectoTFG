@@ -53,9 +53,14 @@ class MainActivityverruta : AppCompatActivity(){
         mBinding = ActivityMainActivityverrutaBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         var email=intent.extras?.getString("email")
-        comprobareditar()
-        email2=email
-        cambiarimagen(email!!)
+        var i=intent.extras?.getInt("acabado",0)
+
+            comprobareditar()
+            email2=email
+            cambiarimagen(email!!)
+
+
+
         mBinding.btnvermonumentos.setOnClickListener {
             val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
             var email=prefs?.getString("email",null)
@@ -64,42 +69,55 @@ class MainActivityverruta : AppCompatActivity(){
                 putExtra("email",email)
                 putExtra("numruta",numruta)
                 putExtra("comproba",1)
+                putExtra("nuevaruta",1)
             }
 
             startActivity(intent)
         }
         mBinding.btnportada.setOnClickListener {
-            setupFirebase(email)
+            setupFirebase(email!!)
             openGallery(email)
 
         }
 
         mBinding.btnguardar.setOnClickListener {
-            if (mBinding.etNombreruta.text.isNotEmpty()) {
-                if (mBinding.etlugarinicio.text.isNotEmpty()) {
-                    if (mBinding.etkms.text.isNotEmpty()) {
-                        if (mBinding.etProvincia.text.isNotEmpty()) {
-                            if (mBinding.checkBox.isChecked) {
-                                if (mBinding.etLocalidad.text.isNotEmpty()) {
-                                    añadirnuevaruta()
-                                } else {
-                                    var dialogq = MaterialAlertDialogBuilder(this).apply {
-                                        setTitle("Info")
-                                        setCancelable(false)
-                                        setMessage("El campo Localidad no puede estar vacio")
-                                        setPositiveButton("Aceptar") { _, i ->
-                                        }
+            var i=intent.extras?.getInt("acabado",0)
 
-                                    }.show()
+                if (mBinding.etNombreruta.text.isNotEmpty()) {
+                    if (mBinding.etlugarinicio.text.isNotEmpty()) {
+                        if (mBinding.etkms.text.isNotEmpty()) {
+                            if (mBinding.etProvincia.text.isNotEmpty()) {
+                                if (mBinding.checkBox.isChecked) {
+                                    if (mBinding.etLocalidad.text.isNotEmpty()) {
+                                        añadirnuevaruta()
+                                    } else {
+                                        var dialogq = MaterialAlertDialogBuilder(this).apply {
+                                            setTitle("Info")
+                                            setCancelable(false)
+                                            setMessage("El campo Localidad no puede estar vacio")
+                                            setPositiveButton("Aceptar") { _, i ->
+                                            }
+
+                                        }.show()
+                                    }
+                                } else {
+                                    añadirnuevaruta()
                                 }
                             } else {
-                                añadirnuevaruta()
+                                var dialogq = MaterialAlertDialogBuilder(this).apply {
+                                    setTitle("Info")
+                                    setCancelable(false)
+                                    setMessage("El campo Provincia no puede estar vacio")
+                                    setPositiveButton("Aceptar") { _, i ->
+                                    }
+
+                                }.show()
                             }
                         } else {
                             var dialogq = MaterialAlertDialogBuilder(this).apply {
                                 setTitle("Info")
                                 setCancelable(false)
-                                setMessage("El campo Provincia no puede estar vacio")
+                                setMessage("El campo Kms de ruta no puede estar vacio")
                                 setPositiveButton("Aceptar") { _, i ->
                                 }
 
@@ -109,35 +127,29 @@ class MainActivityverruta : AppCompatActivity(){
                         var dialogq = MaterialAlertDialogBuilder(this).apply {
                             setTitle("Info")
                             setCancelable(false)
-                            setMessage("El campo Kms de ruta no puede estar vacio")
+                            setMessage("El campo Lugar de inicio no puede estar vacio")
                             setPositiveButton("Aceptar") { _, i ->
                             }
 
                         }.show()
                     }
+
                 } else {
                     var dialogq = MaterialAlertDialogBuilder(this).apply {
                         setTitle("Info")
                         setCancelable(false)
-                        setMessage("El campo Lugar de inicio no puede estar vacio")
+                        setMessage("El campo Nombre de ruta no puede estar vacio")
                         setPositiveButton("Aceptar") { _, i ->
                         }
 
                     }.show()
                 }
 
-            } else {
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Info")
-                    setCancelable(false)
-                    setMessage("El campo Nombre de ruta no puede estar vacio")
-                    setPositiveButton("Aceptar") { _, i ->
-                    }
 
-                }.show()
             }
 
-        }
+
+
     }
 
     private fun openGallery(email:String) {
@@ -224,22 +236,24 @@ class MainActivityverruta : AppCompatActivity(){
         }
     }
     fun añadirnuevaruta() {
-        val email = intent.extras?.getString("email").toString()
-        var docref2 = db.collection("users").document(email)
-        var docref = db.collection("users").document(email)
+        val email=intent.extras?.getString("email").toString()
+        var docref2=db.collection("users").document(email)
+        var docref=db.collection("users").document(email)
         docref.get()
             .addOnSuccessListener {
-                var numerorutas = intent.extras?.getString("numruta")
+                var numerorutas=intent.extras?.getString("numruta")
+                var numeromonumento=it.get("Rutas.ruta$numerorutas.Num_monumentos")
 
-                var loca = ""
-                if (mBinding.etNombreruta.text.isNotEmpty()) {
-                    loca = mBinding.etLocalidad.text.toString()
+
+                var loca=""
+                if (mBinding.etNombreruta.text.isNotEmpty()){
+                    loca=mBinding.etLocalidad.text.toString()
                 }
                 docref2.update(
                     mapOf(
 
                         "Rutas.ruta$numerorutas.Nombre" to mBinding.etNombreruta.text.toString(),
-                        "Rutas.ruta$numerorutas.Num_monumentos" to 0,
+                        "Rutas.ruta$numerorutas.Num_monumentos" to numeromonumento,
                         "Rutas.ruta$numerorutas.Kms" to mBinding.etkms.text.toString(),
                         "Rutas.ruta$numerorutas.Provincia" to mBinding.etProvincia.text.toString(),
                         "Rutas.ruta$numerorutas.Lugar de inicio" to mBinding.etlugarinicio.text.toString(),
@@ -247,9 +261,34 @@ class MainActivityverruta : AppCompatActivity(){
 
                     )
                 ).addOnSuccessListener {
-                    finish()
+                    var dialogq = MaterialAlertDialogBuilder(this).apply {
+                        setTitle("Nueva ruta")
+                        setCancelable(false)
+                        setMessage("¿Desea añadir monumentos a la ruta?")
+                        setPositiveButton("Aceptar") { _, i ->
+
+                            val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+                            var email=prefs?.getString("email",null)
+                            val intent= Intent(context, MainActivityaddmonument::class.java).apply {
+                                putExtra("nombreruta",mBinding.etNombreruta.text.toString())
+                                putExtra("email",email)
+                                putExtra("nuevaruta",0)
+                                putExtra("comproba",0)
+                            }
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
+                        }
+                        setNegativeButton("Cancelar"){_, i ->
+                            finish()
+                        }
+
+                    }.show()
                 }
             }
+            .addOnFailureListener{
+                finish()
+            }
+
     }
 
 

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.proyectotfg.Adaptadores.RutasAdapter
 import com.example.proyectotfg.Clases.Fotos
@@ -21,6 +22,7 @@ import com.example.proyectotfg.OnClickListener
 import com.example.proyectotfg.R
 import com.example.proyectotfg.databinding.FragmentHomeBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.common.io.Resources.getResource
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -30,6 +32,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
     private lateinit var mAdapter: RutasAdapter
     private lateinit var mGridLayout: GridLayoutManager
     var listarutas=ArrayList<Rutas>()
+    var tipo=0
     private val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,14 +45,28 @@ class HomeFragmentG : Fragment(),OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
     mBinding.btnturista.setOnClickListener {
+        tipo=1
         mBinding.btnturista.isEnabled=false
         mBinding.btnguia.isEnabled=true
         mBinding.btnturista.setBackgroundColor(Color.parseColor("#FF3700B3"))
         mBinding.btnguia.setBackgroundColor(Color.parseColor("#FF6200EE"))
         mBinding.clGuia.visibility=View.GONE
         mBinding.clTurista.visibility=View.VISIBLE
+        object : CountDownTimer(1000,1000){
+            override fun onTick(p0: Long) {
+
+            }
+
+            override fun onFinish() {
+                setupRecyclerViewT()
+            }
+
+        }.start()
+
+
     }
         mBinding.btnguia.setOnClickListener {
+            tipo=0
             mBinding.btnguia.isEnabled=false
             mBinding.btnturista.isEnabled=true
             mBinding.btnguia.setBackgroundColor(Color.parseColor("#FF3700B3"))
@@ -70,6 +87,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
                     var email=prefs?.getString("email",null)
                     val intent= Intent(context, MainActivityadd::class.java).apply {
                         putExtra("email",email)
+                        putExtra("rutanueva",1)
                         putExtra("nombreruta",dialog.findViewById<EditText>(R.id.editTextTextPersonName).text.toString())
                     }
                     startActivity(intent)
@@ -101,13 +119,13 @@ class HomeFragmentG : Fragment(),OnClickListener {
             }
 
             override fun onFinish() {
-                setupRecyclerView()
+                setupRecyclerViewG()
             }
 
         }.start()
     }
 
-    private fun setupRecyclerView() {
+    private fun setupRecyclerViewG() {
         mAdapter= RutasAdapter(ArrayList(),this)
         mGridLayout= GridLayoutManager(context,2)
 
@@ -115,6 +133,20 @@ class HomeFragmentG : Fragment(),OnClickListener {
 
 
         mBinding.recyclerViewG.apply {
+            setHasFixedSize(true)
+            layoutManager=mGridLayout
+            adapter=mAdapter
+        }
+
+    }
+    private fun setupRecyclerViewT() {
+        mAdapter= RutasAdapter(ArrayList(),this)
+        mGridLayout= GridLayoutManager(context,2)
+
+        obtenerDatos()
+
+
+        mBinding.recyclerViewT.apply {
             setHasFixedSize(true)
             layoutManager=mGridLayout
             adapter=mAdapter
@@ -170,19 +202,42 @@ class HomeFragmentG : Fragment(),OnClickListener {
     }
 
     override fun editarruta(rutas: Rutas) {
-        val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        var email=prefs?.getString("email",null)
-        var intent=Intent(context,MainActivityverruta::class.java).apply {
-            putExtra("nombreruta",rutas.titulo)
-            putExtra("etprovincia",rutas.provincia)
-            putExtra("etkms",rutas.kms)
-            putExtra("etlugardeinicio",rutas.lugardeinicio)
-            putExtra("localidad",rutas.localidad)
-            putExtra("numruta",rutas.numruta)
-            putExtra("email",email)
+        if (tipo==0){
+            val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+            var email=prefs?.getString("email",null)
+            var intent=Intent(context,MainActivityverruta::class.java).apply {
+                putExtra("nombreruta",rutas.titulo)
+                putExtra("etprovincia",rutas.provincia)
+                putExtra("etkms",rutas.kms)
+                putExtra("etlugardeinicio",rutas.lugardeinicio)
+                putExtra("localidad",rutas.localidad)
+                putExtra("numruta",rutas.numruta)
+                putExtra("email",email)
+                putExtra("nuevaruta",0)
+                putExtra("rutanueva",0)
+            }
+
+            startActivity(intent)
+        }else{
+            val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+            var email=prefs?.getString("email",null)
+            var intent=Intent(context,MainActivityDetallesderuta::class.java).apply {
+                putExtra("nombreruta",rutas.titulo)
+                putExtra("etprovincia",rutas.provincia)
+                putExtra("etkms",rutas.kms)
+                putExtra("etlugardeinicio",rutas.lugardeinicio)
+                putExtra("localidad",rutas.localidad)
+                putExtra("numruta",rutas.numruta)
+                putExtra("email",email)
+            }
+
+            startActivity(intent)
         }
 
-        startActivity(intent)
+    }
+
+    override fun addruta(rutas: Rutas) {
+        TODO("Not yet implemented")
     }
 
 

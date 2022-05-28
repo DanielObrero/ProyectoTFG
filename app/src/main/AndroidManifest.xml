@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTFG">
         <activity
+            android:name=".Principal.Guia.MainActivityDetallesderuta"
+            android:exported="false" />
+        <activity
             android:name=".Principal.Guia.MainActivityverruta"
             android:exported="false" />
         <activity

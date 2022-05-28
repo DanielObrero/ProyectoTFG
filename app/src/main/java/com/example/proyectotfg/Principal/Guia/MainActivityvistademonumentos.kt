@@ -46,13 +46,26 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
         }.start()
 
         mBinding.btnaddnuevomonumento.setOnClickListener {
-            crearmonumento()
+            var nuevaruta=intent.extras?.getInt("nuevaruta")
+            Log.d("datos","nuevaruta=$nuevaruta")
+            if (nuevaruta==0){
+                crearmonumento()
+            }else{
+                crearmonumento2()
+            }
+
             var nombreruta=intent.extras?.getString("nombreruta")
+            var numruta=intent.extras?.getString("numruta")
             var email=intent.extras?.getString("email")
             val intent= Intent(this, MainActivityaddmonument::class.java).apply {
                 putExtra("nombreruta",nombreruta)
                 putExtra("email",email)
                 putExtra("compro",0)
+                putExtra("nuevo",0)
+                putExtra("comproadd",1)
+                putExtra("nuevaruta",nuevaruta)
+                putExtra("numruta",numruta)
+                putExtra("email",email)
             }
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
@@ -60,12 +73,43 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
 
         }
         mBinding.btnguardarmonumentos.setOnClickListener {
-            val intent= Intent(this, MainActivityadd::class.java)
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            intent.putExtra("acabado",1)
-            startActivity(intent)
+            var nuevaruta=intent.extras?.getInt("nuevaruta")
+            if (nuevaruta==0){
+                val intent= Intent(this, MainActivityadd::class.java).apply {
+                    putExtra("acabado",1)
+                }
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+            }else{
+                finish()
+            }
+
         }
     }
+
+    private fun crearmonumento2() {
+        var email=intent.extras?.getString("email").toString()
+        var ruta=intent.extras?.getString("nombreruta").toString()
+        db.collection("users").document(email).get().addOnSuccessListener {
+            var numeroruta = intent.extras?.getString("numruta").toString()
+
+            var nummonumentos =
+                it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
+            var nuevonum=nummonumentos
+            nuevonum++
+            db.collection("users").document(email).update(
+                mapOf(
+
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Num_fotos" to 0,
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Nombre" to "",
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Fecha de construccion" to "",
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Breve Drescripcion" to "",
+                    "Rutas.ruta$numeroruta.Num_monumentos" to nuevonum
+                )
+            )
+        }
+    }
+
     private fun setupRecyclerView() {
         mAdapter= MonumentosAdapter(ArrayList(),this)
         mGridLayout= GridLayoutManager(this,1)
@@ -194,6 +238,8 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
     }
 
     override fun editarmonumento(Monumento: Monumentos) {
+        var nuevaruta=intent.extras?.getInt("nuevaruta")
+        Log.d("datos","nuevaruta=$nuevaruta")
         var email=intent.extras?.getString("email")
         val intent= Intent(this, MainActivityaddmonument::class.java).apply {
             putExtra("titulo",Monumento.titulo)
@@ -202,6 +248,9 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
             putExtra("nummonumento",Monumento.nummonumento)
             putExtra("numruta",Monumento.numruta)
             putExtra("compro",1)
+            putExtra("nuevo",1)
+            putExtra("nuevaruta",nuevaruta)
+            putExtra("comproadd",0)
             putExtra("email",email)
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -209,6 +258,10 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
     }
 
     override fun editarruta(rutas: Rutas) {
+        TODO("Not yet implemented")
+    }
+
+    override fun addruta(rutas: Rutas) {
         TODO("Not yet implemented")
     }
 }

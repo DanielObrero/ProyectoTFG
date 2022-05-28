@@ -94,35 +94,71 @@ class pag_DatosAdicionales : AppCompatActivity() {
         }
     }
     fun subir(email:String,nombre:String,Papellido:String,Sapellido:String,telefono:String,tipo:String){
-        db.collection("users").document(email)
-            .set(
-                hashMapOf(
-                    "nombre" to nombre,
-                    "Primer Apellido" to Papellido,
-                    "Segundo Apellido" to Sapellido,
-                    "Telefono" to telefono,
-                    "Tipo de Usuario" to tipo,
+        if (tipo=="Guia"){
+            db.collection("users").document(email)
+                .set(
+                    hashMapOf(
+                        "nombre" to nombre,
+                        "Primer Apellido" to Papellido,
+                        "Segundo Apellido" to Sapellido,
+                        "Telefono" to telefono,
+                        "Tipo de Usuario" to tipo,
+                        "Num_rutas" to 0,
+                        "Num_opiniones" to 0
 
-                )
-            ).addOnSuccessListener { documentReference ->
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Nuevo Usuario")
-                    setCancelable(false)
-                    setMessage("Usuario Registrado con éxito")
-                    setPositiveButton("Aceptar") { _, i ->
-                        showHome(email)
-                    }
+                        )
+                ).addOnSuccessListener { documentReference ->
+                    var dialogq = MaterialAlertDialogBuilder(this).apply {
+                        setTitle("Nuevo Usuario")
+                        setCancelable(false)
+                        setMessage("Usuario Registrado con éxito")
+                        setPositiveButton("Aceptar") { _, i ->
+                            showHome(email)
+                        }
 
-                }.show()
+                    }.show()
 
-            }
-            .addOnFailureListener { e ->
-                MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Error de Datos")
-                    setMessage("Fallo al guardar los datos")
-                    setPositiveButton("Aceptar",null).show()
                 }
-            }
+                .addOnFailureListener { e ->
+                    MaterialAlertDialogBuilder(this).apply {
+                        setTitle("Error de Datos")
+                        setMessage("Fallo al guardar los datos")
+                        setPositiveButton("Aceptar",null).show()
+                    }.show()
+                }
+        }else if (tipo=="Turista"){
+            db.collection("users").document(email)
+                .set(
+                    hashMapOf(
+                        "nombre" to nombre,
+                        "Primer Apellido" to Papellido,
+                        "Segundo Apellido" to Sapellido,
+                        "Telefono" to telefono,
+                        "Tipo de Usuario" to tipo,
+                        "Num_rutasfuturas" to 0
+
+                        )
+                ).addOnSuccessListener { documentReference ->
+                    var dialogq = MaterialAlertDialogBuilder(this).apply {
+                        setTitle("Nuevo Usuario")
+                        setCancelable(false)
+                        setMessage("Usuario Registrado con éxito")
+                        setPositiveButton("Aceptar") { _, i ->
+                            showHome(email)
+                        }
+
+                    }.show()
+
+                }
+                .addOnFailureListener { e ->
+                    MaterialAlertDialogBuilder(this).apply {
+                        setTitle("Error de Datos")
+                        setMessage("Fallo al guardar los datos")
+                        setPositiveButton("Aceptar",null).show()
+                    }
+                }
+        }
+
     }
 
     override fun onBackPressed() {

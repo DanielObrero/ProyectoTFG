@@ -53,12 +53,11 @@ class MainActivityadd : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainActivityaddBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-
-        var i=intent.extras?.getInt("acabado",0)
-        if (i==1){
+        var acabado=intent.extras?.getInt("acabado",0)
+        if (acabado==1){
             finish()
-
         }
+
         val email=intent.extras?.getString("email").toString()
         email2=email
         var nombreruta=intent.extras?.getString("nombreruta").toString()
@@ -214,54 +213,59 @@ class MainActivityadd : AppCompatActivity() {
     }
 
     fun añadirnuevaruta(){
-        val email=intent.extras?.getString("email").toString()
-        var docref2=db.collection("users").document(email)
-        var docref=db.collection("users").document(email)
-        docref.get()
-            .addOnSuccessListener {
-                var numerorutas=it.get("Num_rutas")
-                var nuevonumerorutas:Long=numerorutas as Long
-                nuevonumerorutas++
-                var loca=""
-                if (mBinding.etNombreruta.text.isNotEmpty()){
-                    loca=mBinding.etLocalidad.text.toString()
-                }
-                docref2.update(
-                    mapOf(
-                        "Num_rutas" to nuevonumerorutas,
-                        "Rutas.ruta$numerorutas.Nombre" to mBinding.etNombreruta.text.toString(),
-                        "Rutas.ruta$numerorutas.Num_monumentos" to 0,
-                        "Rutas.ruta$numerorutas.Kms" to mBinding.etkms.text.toString(),
-                        "Rutas.ruta$numerorutas.Provincia" to mBinding.etProvincia.text.toString(),
-                        "Rutas.ruta$numerorutas.Lugar de inicio" to mBinding.etlugarinicio.text.toString(),
-                        "Rutas.ruta$numerorutas.Localidad" to loca
 
-                    )
-                ).addOnSuccessListener {
-                    var dialogq = MaterialAlertDialogBuilder(this).apply {
-                        setTitle("Nueva ruta")
-                        setCancelable(false)
-                        setMessage("¿Desea añadir monumentos a la ruta?")
-                        setPositiveButton("Aceptar") { _, i ->
+            val email=intent.extras?.getString("email").toString()
+            var docref2=db.collection("users").document(email)
+            var docref=db.collection("users").document(email)
+            docref.get()
+                .addOnSuccessListener {
+                    var numerorutas=it.get("Num_rutas")
+                    var nuevonumerorutas:Long=numerorutas as Long
+                    nuevonumerorutas++
+                    var loca=""
+                    if (mBinding.etNombreruta.text.isNotEmpty()){
+                        loca=mBinding.etLocalidad.text.toString()
+                    }
+                    docref2.update(
+                        mapOf(
+                            "Num_rutas" to nuevonumerorutas,
+                            "Rutas.ruta$numerorutas.Nombre" to mBinding.etNombreruta.text.toString(),
+                            "Rutas.ruta$numerorutas.Num_monumentos" to 0,
+                            "Rutas.ruta$numerorutas.Kms" to mBinding.etkms.text.toString(),
+                            "Rutas.ruta$numerorutas.Provincia" to mBinding.etProvincia.text.toString(),
+                            "Rutas.ruta$numerorutas.Lugar de inicio" to mBinding.etlugarinicio.text.toString(),
+                            "Rutas.ruta$numerorutas.Localidad" to loca
 
-                            val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-                            var email=prefs?.getString("email",null)
-                            val intent= Intent(context, MainActivityaddmonument::class.java).apply {
-                                putExtra("nombreruta",mBinding.etNombreruta.text.toString())
-                                putExtra("email",email)
+                        )
+                    ).addOnSuccessListener {
+                        var dialogq = MaterialAlertDialogBuilder(this).apply {
+                            setTitle("Nueva ruta")
+                            setCancelable(false)
+                            setMessage("¿Desea añadir monumentos a la ruta?")
+                            setPositiveButton("Aceptar") { _, i ->
+
+                                val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+                                var email=prefs?.getString("email",null)
+                                val intent= Intent(context, MainActivityaddmonument::class.java).apply {
+                                    putExtra("nombreruta",mBinding.etNombreruta.text.toString())
+                                    putExtra("email",email)
+                                    putExtra("nuevaruta",0)
+                                    putExtra("comproba",0)
+                                }
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                startActivity(intent)
                             }
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(intent)
-                        }
-                        setNegativeButton("Cancelar"){_, i ->
-                            finish()
-                        }
+                            setNegativeButton("Cancelar"){_, i ->
+                                finish()
+                            }
 
-                    }.show()
+                        }.show()
+                    }
                 }
-            }
-            .addOnFailureListener{
+                .addOnFailureListener{
 
-            }
+                }
+
+
     }
 }
