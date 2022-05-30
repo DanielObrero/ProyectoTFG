@@ -137,7 +137,7 @@ class HomeFragmentT : Fragment() , OnClickListener{
             putExtra("etlugardeinicio",rutas.lugardeinicio)
             putExtra("localidad",rutas.localidad)
             putExtra("numruta",rutas.numruta)
-            putExtra("email",rutas.email)
+            putExtra("emailguia",rutas.email)
             putExtra("persona",email)
             putExtra("turista",1)
         }

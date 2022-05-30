@@ -262,7 +262,7 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
     }
 
     private fun cambiarimagen() {
-        var email=intent.extras?.getString("email")
+        var email=intent.extras?.getString("emailguia")
         db.collection("users").document(email!!).get().addOnSuccessListener {
             var num=intent.extras?.getString("numruta")
             Glide.with(this)
@@ -294,13 +294,15 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
 
     private fun obtenerDatos2(boton:Int) {
         listamonumentos.clear()
-        var email=intent.extras?.getString("email")
+        var email=intent.extras?.getString("emailguia")
         Log.d("Datos",email.toString())
         val docRef = db.collection("users").document(email!!)
         docRef.get()
             .addOnSuccessListener { document ->
                 var numrutas=intent.extras?.getString("numruta")
+                Log.d("numruta","numruta=$numrutas")
                 totalmonumentos=document.get("Rutas.ruta$numrutas.Num_monumentos") as Long
+                Log.d("numruta","nummonumentos=$totalmonumentos")
                 var nombre=document.get("Rutas.ruta$numrutas.Monumentos.monumento$numeromonumento.Nombre").toString()
                 var total=document.get("Rutas.ruta$numrutas.Num_borrados") as Long
                 if (totalmonumentos==total){

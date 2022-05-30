@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import com.example.proyectotfg.R
 import com.example.proyectotfg.Principal.Guia.MenuActivityG
+import com.example.proyectotfg.Principal.Turista.MenuActivityT
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -181,11 +182,24 @@ class pag_DatosAdicionales : AppCompatActivity() {
         startActivity(intent)
     }
     private fun showHome(email:String){
-
-        val homeIntent=Intent(this, MenuActivityG::class.java).apply {
-            putExtra("email",email)
+        var rbTurista=findViewById<RadioButton>(R.id.rbTurista)
+        var rbGuia=findViewById<RadioButton>(R.id.rbGuia)
+        if(rbGuia.isChecked || rbTurista.isChecked){
+            if (rbTurista.isChecked){
+                val homeIntent=Intent(this, MenuActivityT::class.java).apply {
+                    putExtra("email",email)
+                }
+                startActivity(homeIntent)
+            }
+            if (rbGuia.isChecked){
+                val homeIntent=Intent(this, MenuActivityG::class.java).apply {
+                    putExtra("email",email)
+                }
+                startActivity(homeIntent)
+            }
         }
-        startActivity(homeIntent)
+
+
     }
 
     private fun showAlert(i:Int){
