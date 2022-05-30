@@ -1,5 +1,6 @@
 package com.example.proyectotfg.Principal.Guia
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -10,7 +11,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.proyectotfg.Adaptadores.RutasAdapter
@@ -32,6 +35,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
     private lateinit var mAdapter: RutasAdapter
     private lateinit var mGridLayout: GridLayoutManager
     var listarutas=ArrayList<Rutas>()
+    var arrayprovincias=ArrayList<String>()
     var tipo=0
     private val db = Firebase.firestore
     override fun onCreateView(
@@ -44,12 +48,13 @@ class HomeFragmentG : Fragment(),OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
+
     mBinding.btnturista.setOnClickListener {
         tipo=1
         mBinding.btnturista.isEnabled=false
         mBinding.btnguia.isEnabled=true
-        mBinding.btnturista.setBackgroundColor(Color.parseColor("#FF3700B3"))
-        mBinding.btnguia.setBackgroundColor(Color.parseColor("#FF6200EE"))
         mBinding.clGuia.visibility=View.GONE
         mBinding.clTurista.visibility=View.VISIBLE
         object : CountDownTimer(1000,1000){
@@ -59,18 +64,19 @@ class HomeFragmentG : Fragment(),OnClickListener {
 
             override fun onFinish() {
                 setupRecyclerViewT()
+
+
             }
 
         }.start()
 
 
     }
+
         mBinding.btnguia.setOnClickListener {
             tipo=0
             mBinding.btnguia.isEnabled=false
             mBinding.btnturista.isEnabled=true
-            mBinding.btnguia.setBackgroundColor(Color.parseColor("#FF3700B3"))
-            mBinding.btnturista.setBackgroundColor(Color.parseColor("#FF6200EE"))
             mBinding.clGuia.visibility=View.VISIBLE
             mBinding.clTurista.visibility=View.GONE
         }
@@ -143,7 +149,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
         mAdapter= RutasAdapter(ArrayList(),this)
         mGridLayout= GridLayoutManager(context,2)
 
-        obtenerDatos()
+        obtenerdatoscomoturista()
 
 
         mBinding.recyclerViewT.apply {
@@ -155,7 +161,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
     }
 
     private fun obtenerDatos() {
-
+        arrayprovincias.clear()
         listarutas.clear()
         val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         var email=prefs?.getString("email",null)
@@ -165,14 +171,20 @@ class HomeFragmentG : Fragment(),OnClickListener {
             .addOnSuccessListener { document ->
                 var numrutas=document.get("Num_rutas") as Long
                 var cont=0
-                while (cont<numrutas){
-                    var rutas: Rutas = Rutas(document.get("Rutas.ruta$cont.Nombre").toString(),
-                        document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
-                                document.get("Rutas.ruta$cont.Provincia").toString(),
-                                document.get("Rutas.ruta$cont.Localidad").toString(),
-                                document.get("Rutas.ruta$cont.Kms").toString(),cont.toString())
 
-                    listarutas.add(rutas)
+
+
+                while (cont<numrutas){
+                    if (document.get("Rutas.ruta$cont.Nombre").toString().isNotEmpty()){
+                        var rutas: Rutas = Rutas(document.get("Rutas.ruta$cont.Nombre").toString(),
+                            document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
+                            document.get("Rutas.ruta$cont.Provincia").toString(),
+                            document.get("Rutas.ruta$cont.Localidad").toString(),
+                            document.get("Rutas.ruta$cont.Kms").toString(),cont.toString())
+
+                        listarutas.add(rutas)
+                    }
+
 
                     cont++
                 }
@@ -191,6 +203,45 @@ class HomeFragmentG : Fragment(),OnClickListener {
 
 
 
+    }
+
+    fun obtenerdatoscomoturista(){
+        listarutas.clear()
+        db.collection("users").get().addOnSuccessListener {
+            for (i in it.documents){
+                Log.d("resto","email=${i.id}")
+                val docRef = db.collection("users").document(i.id)
+                docRef.get()
+                    .addOnSuccessListener { document ->
+                        var tipo=document.get("Tipo de Usuario").toString()
+                        Log.d("resto","tipo=$tipo")
+                        if (tipo=="Guia"){
+                            var numrutas=document.get("Num_rutas") as Long
+                            Log.d("resto","Num_rutas=$numrutas")
+                            var cont=0
+                            while (cont<numrutas){
+                                if (document.get("Rutas.ruta$cont.Nombre").toString().isNotEmpty()){
+                                    var rutas: Rutas = Rutas(document.get("Rutas.ruta$cont.Nombre").toString(),
+                                        document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
+                                        document.get("Rutas.ruta$cont.Provincia").toString(),
+                                        document.get("Rutas.ruta$cont.Localidad").toString(),
+                                        document.get("Rutas.ruta$cont.Kms").toString(),cont.toString(),i.id)
+
+                                    listarutas.add(rutas)
+                                }
+
+
+                                cont++
+                            }
+                            mAdapter.setStores(listarutas)
+                        }
+
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d("rutas","fallo")
+                    }
+            }
+        }
     }
 
     override fun borrarfoto(foto: Fotos) {
@@ -237,6 +288,37 @@ class HomeFragmentG : Fragment(),OnClickListener {
     }
 
     override fun addruta(rutas: Rutas) {
+
+        if (!mBinding.btnguia.isEnabled){
+            var dialogo=AlertDialog.Builder(requireContext()).apply {
+                setTitle("Información")
+                setCancelable(false)
+                setPositiveButton("Aceptar"){ _,i ->
+                    val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+                    var email=prefs?.getString("email",null)
+                    db.collection("users").document(email!!).update(
+                        mapOf(
+                            "Rutas.ruta${rutas.numruta}.Nombre" to ""
+                        )
+                    ).addOnSuccessListener {
+                        var dialogo=AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Información")
+                            setCancelable(false)
+                            setPositiveButton("Aceptar",null)
+                            setMessage("La ruta se ha borrado correctamente")
+                        }.show()
+                        setupRecyclerViewG()
+                    }
+                }
+                setNegativeButton("Cancelar",null)
+                setMessage("¿Desea borrar la ruta?")
+            }.show()
+        }
+
+
+    }
+
+    override fun borrarmonumento(fotos: Monumentos) {
         TODO("Not yet implemented")
     }
 

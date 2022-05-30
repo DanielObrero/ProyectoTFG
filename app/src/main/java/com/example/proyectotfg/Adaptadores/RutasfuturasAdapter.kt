@@ -8,16 +8,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
 import com.example.proyectotfg.OnClickListener
 import com.example.proyectotfg.R
-import com.example.proyectotfg.databinding.MonumentosBinding
 import com.example.proyectotfg.databinding.RutascreadasBinding
 
-class MonumentosAdapter(private var rutas:ArrayList<Monumentos>,var listener: OnClickListener) :
-RecyclerView.Adapter<MonumentosAdapter.ViewHolder>(){
+class RutasfuturasAdapter(private var rutas:ArrayList<Rutas>, var listener: OnClickListener) :
+RecyclerView.Adapter<RutasfuturasAdapter.ViewHolder>(){
 
     private lateinit var mContext:Context
 
@@ -25,7 +23,7 @@ RecyclerView.Adapter<MonumentosAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         mContext=parent.context
 
-        val view=LayoutInflater.from(mContext).inflate(R.layout.monumentos,parent,false)
+        val view=LayoutInflater.from(mContext).inflate(R.layout.rutasfuturascreadas,parent,false)
 
         return ViewHolder(view)
     }
@@ -37,31 +35,28 @@ setlistener(character)
 
             binding.tvName.text=character.titulo
 
+
             Glide.with(mContext)
                 .load("https://firebasestorage.googleapis.com/v0/b/proyectotfg-87d7e.appspot.com/o/" +
-                        "Rutas%2Fruta${character.numruta}%2FMonumentos%2Fmonumento${character.nummonumento}%2Fportada.jpg?alt=media")
-                .centerCrop()
+                        "Rutas%2Fruta${character.numruta}%2Fportada.jpg?alt=media")
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
                 .into(binding.imgPhoto)
 
 
         }
     }
-    fun setStores(stores: ArrayList<Monumentos>) {
+    fun setStores(stores: ArrayList<Rutas>) {
         this.rutas=stores
         notifyDataSetChanged()
     }
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val binding= MonumentosBinding.bind(view)
-        fun setlistener(fotos: Monumentos){
+        val binding= RutascreadasBinding.bind(view)
+        fun setlistener(fotos: Rutas){
             with(binding.root){
                 setOnClickListener{
-                    listener.editarmonumento(fotos)
-                    true
-                }
-                setOnLongClickListener {
-                    listener.borrarmonumento(fotos)
+                    listener.editarruta(fotos)
                     true
                 }
             }

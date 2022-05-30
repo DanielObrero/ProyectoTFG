@@ -9,4 +9,5 @@ interface OnClickListener {
     fun editarmonumento(Monumento: Monumentos)
     fun editarruta(rutas: Rutas)
     fun addruta(rutas: Rutas)
+    fun borrarmonumento(fotos: Monumentos)
 }

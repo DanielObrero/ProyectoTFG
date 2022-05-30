@@ -231,6 +231,8 @@ class MainActivityadd : AppCompatActivity() {
                             "Num_rutas" to nuevonumerorutas,
                             "Rutas.ruta$numerorutas.Nombre" to mBinding.etNombreruta.text.toString(),
                             "Rutas.ruta$numerorutas.Num_monumentos" to 0,
+                            "Rutas.ruta$numerorutas.Num_opiniones" to 0,
+                            "Rutas.ruta$numerorutas.Num_borrados" to 0,
                             "Rutas.ruta$numerorutas.Kms" to mBinding.etkms.text.toString(),
                             "Rutas.ruta$numerorutas.Provincia" to mBinding.etProvincia.text.toString(),
                             "Rutas.ruta$numerorutas.Lugar de inicio" to mBinding.etlugarinicio.text.toString(),

@@ -89,13 +89,16 @@ class HomeFragmentT : Fragment() , OnClickListener{
                             Log.d("resto","Num_rutas=$numrutas")
                             var cont=0
                             while (cont<numrutas){
-                                var rutas: Rutas = Rutas(document.get("Rutas.ruta$cont.Nombre").toString(),
-                                    document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
-                                    document.get("Rutas.ruta$cont.Provincia").toString(),
-                                    document.get("Rutas.ruta$cont.Localidad").toString(),
-                                    document.get("Rutas.ruta$cont.Kms").toString(),cont.toString(),i.id)
+                                if (document.get("Rutas.ruta$cont.Nombre").toString().isNotEmpty()){
+                                    var rutas: Rutas = Rutas(document.get("Rutas.ruta$cont.Nombre").toString(),
+                                        document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
+                                        document.get("Rutas.ruta$cont.Provincia").toString(),
+                                        document.get("Rutas.ruta$cont.Localidad").toString(),
+                                        document.get("Rutas.ruta$cont.Kms").toString(),cont.toString(),i.id)
 
-                                listarutas.add(rutas)
+                                    listarutas.add(rutas)
+                                }
+
 
                                 cont++
                             }
@@ -173,5 +176,9 @@ class HomeFragmentT : Fragment() , OnClickListener{
             setNegativeButton("Cancelar",null)
 
         }.show()
+    }
+
+    override fun borrarmonumento(fotos: Monumentos) {
+        TODO("Not yet implemented")
     }
 }

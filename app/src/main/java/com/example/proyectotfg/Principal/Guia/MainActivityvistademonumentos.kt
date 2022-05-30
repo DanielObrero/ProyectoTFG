@@ -1,5 +1,6 @@
 package com.example.proyectotfg.Principal.Guia
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -47,12 +48,13 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
 
         mBinding.btnaddnuevomonumento.setOnClickListener {
             var nuevaruta=intent.extras?.getInt("nuevaruta")
-            Log.d("datos","nuevaruta=$nuevaruta")
-            if (nuevaruta==0){
-                crearmonumento()
-            }else{
-                crearmonumento2()
-            }
+
+                if (nuevaruta==0){
+                    crearmonumento()
+                }else{
+                    crearmonumento2()
+                }
+
 
             var nombreruta=intent.extras?.getString("nombreruta")
             var numruta=intent.extras?.getString("numruta")
@@ -87,34 +89,13 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
         }
     }
 
-    private fun crearmonumento2() {
-        var email=intent.extras?.getString("email").toString()
-        var ruta=intent.extras?.getString("nombreruta").toString()
-        db.collection("users").document(email).get().addOnSuccessListener {
-            var numeroruta = intent.extras?.getString("numruta").toString()
 
-            var nummonumentos =
-                it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
-            var nuevonum=nummonumentos
-            nuevonum++
-            db.collection("users").document(email).update(
-                mapOf(
-
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Num_fotos" to 0,
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Nombre" to "",
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Fecha de construccion" to "",
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Breve Drescripcion" to "",
-                    "Rutas.ruta$numeroruta.Num_monumentos" to nuevonum
-                )
-            )
-        }
-    }
 
     private fun setupRecyclerView() {
         mAdapter= MonumentosAdapter(ArrayList(),this)
         mGridLayout= GridLayoutManager(this,1)
         var comrp=intent.extras?.getInt("comproba")
-
+        Log.d("datos",comrp.toString())
         if (comrp!=null){
             if (comrp==1){
                 Log.d("datos",comrp.toString())
@@ -222,13 +203,35 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
             nuevonum++
             db.collection("users").document(email).update(
                 mapOf(
-
+                    "Rutas.ruta$numeroruta.Num_monumentos" to nuevonum,
                     "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Num_fotos" to 0,
                     "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Nombre" to "",
                     "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Fecha de construccion" to "",
                     "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Breve Drescripcion" to "",
-                    "Rutas.ruta$numeroruta.Num_monumentos" to nuevonum
+
                 )
+            )
+        }
+    }
+
+    fun crearmonumento2(){
+        var email=intent.extras?.getString("email").toString()
+        var ruta=intent.extras?.getString("nombreruta").toString()
+        db.collection("users").document(email).get().addOnSuccessListener {
+            var numeroruta = intent.extras?.getString("numruta")
+            var nummonumentos =
+                it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
+            var nuevonum=nummonumentos
+            nuevonum++
+            db.collection("users").document(email).update(
+                mapOf(
+                    "Rutas.ruta$numeroruta.Num_monumentos" to nuevonum,
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Num_fotos" to 0,
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Nombre" to "",
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Fecha de construccion" to "",
+                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Breve Drescripcion" to "",
+
+                    )
             )
         }
     }
@@ -263,5 +266,39 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
 
     override fun addruta(rutas: Rutas) {
         TODO("Not yet implemented")
+    }
+
+    override fun borrarmonumento(fotos: Monumentos) {
+        var dialogo= AlertDialog.Builder(this).apply {
+            setTitle("Información")
+            setCancelable(false)
+            setPositiveButton("Aceptar"){ _,i ->
+                val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+                var email=prefs?.getString("email",null)
+
+                db.collection("users").document(email!!).get().addOnSuccessListener {
+                 var numborrados=it.get("Rutas.ruta${fotos.numruta}.Num_borrados") as Long
+                 numborrados++
+                    db.collection("users").document(email!!).update(
+                        mapOf(
+                            "Rutas.ruta${fotos.numruta}.Monumentos.monumento${fotos.nummonumento}.Nombre" to "",
+                            "Rutas.ruta${fotos.numruta}.Num_borrados" to numborrados
+                        )
+                    ).addOnSuccessListener {
+                        var dialogo= AlertDialog.Builder(context).apply {
+                            setTitle("Información")
+                            setCancelable(false)
+                            setPositiveButton("Aceptar",null)
+                            setMessage("El monumento se ha borrado correctamente se ha borrado correctamente")
+                        }.show()
+                        setupRecyclerView()
+                    }
+                }
+
+
+            }
+            setNegativeButton("Cancelar",null)
+            setMessage("¿Desea borrar el monumento?")
+        }.show()
     }
 }

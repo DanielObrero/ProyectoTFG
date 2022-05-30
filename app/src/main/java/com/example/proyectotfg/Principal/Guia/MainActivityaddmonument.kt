@@ -303,6 +303,7 @@ var compro=0
                 var num=it.get("Num_rutas").toString().toInt()
                 num--
                 var num2=it.get("Rutas.ruta$num.Num_monumentos").toString().toInt()
+                Log.d("foto","nueva ruta=$nuevaruta \n num2=$num2")
                 mSnapshotsStorageRef = FirebaseStorage.getInstance().reference.child(SnapshotsApplication.PATH_RUTAS).child("ruta$num").child("Monumentos").child("monumento$num2")
             }
         }else{
@@ -312,6 +313,8 @@ var compro=0
                     var num=intent.extras?.getString("numruta").toString()
 
                     var num2=it.get("Rutas.ruta$num.Num_monumentos").toString().toInt()
+                    num2--
+                    Log.d("foto","comrpobar add=$comproadd \nnueva ruta=$nuevaruta \nnum2=$num2")
                     mSnapshotsStorageRef = FirebaseStorage.getInstance().reference.child(SnapshotsApplication.PATH_RUTAS).child("ruta$num").child("Monumentos").child("monumento$num2")
                 }
             }else{
@@ -319,6 +322,8 @@ var compro=0
                     var num=intent.extras?.getString("numruta").toString()
 
                     var num2=intent.extras?.getString("nummonumento").toString()
+                    Log.d("foto","comrpobar add=$comproadd \nnueva ruta=$nuevaruta \nnum2=$num2")
+
                     mSnapshotsStorageRef = FirebaseStorage.getInstance().reference.child(SnapshotsApplication.PATH_RUTAS).child("ruta$num").child("Monumentos").child("monumento$num2")
                 }
             }
@@ -401,28 +406,54 @@ var compro=0
 
 
     fun guardarmonumento(){
-        var email=intent.extras?.getString("email").toString()
-        var ruta=intent.extras?.getString("nombreruta").toString()
-        db.collection("users").document(email).get().addOnSuccessListener {
-            var numeroruta = it.get("Num_rutas") as Long
-            numeroruta--
-            var nummonumentos =
-                it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
-            var nummonumentoanterior=nummonumentos
-            nummonumentos++
-            db.collection("users").document(email).update(
-                mapOf(
-                    "Rutas.ruta$numeroruta.Num_monumentos" to nummonumentos,
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Nombre" to mBinding.editTextTextPersonName2.text.toString(),
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Fecha de construccion" to mBinding.editTextNumber.text.toString(),
-                    "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Breve Drescripcion" to mBinding.editTextTextMultiLine.text.toString(),
+        var nuevaruta=intent.extras?.getInt("nuevaruta")!!
+        if (nuevaruta==0){
+            var email=intent.extras?.getString("email").toString()
+            var ruta=intent.extras?.getString("nombreruta").toString()
+            db.collection("users").document(email).get().addOnSuccessListener {
+                var numeroruta = it.get("Num_rutas") as Long
+                numeroruta--
+                var nummonumentos =
+                    it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
+                var nummonumentoanterior=nummonumentos
+                nummonumentos++
+                db.collection("users").document(email).update(
+                    mapOf(
+                        "Rutas.ruta$numeroruta.Num_monumentos" to nummonumentos,
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Nombre" to mBinding.editTextTextPersonName2.text.toString(),
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Fecha de construccion" to mBinding.editTextNumber.text.toString(),
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentoanterior.Breve Drescripcion" to mBinding.editTextTextMultiLine.text.toString(),
 
-                )
-            ).addOnCompleteListener{
+                        )
+                ).addOnCompleteListener{
 
 
+                }
+            }
+        }else{
+            var email=intent.extras?.getString("email").toString()
+            var ruta=intent.extras?.getString("nombreruta").toString()
+            db.collection("users").document(email).get().addOnSuccessListener {
+                var numeroruta = intent.extras?.getString("numruta")
+                var nummonumentos =
+                    it.get("Rutas.ruta$numeroruta.Num_monumentos") as Long
+                var nummonumentoanterior=nummonumentos
+                nummonumentos--
+                db.collection("users").document(email).update(
+                    mapOf(
+
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Nombre" to mBinding.editTextTextPersonName2.text.toString(),
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Fecha de construccion" to mBinding.editTextNumber.text.toString(),
+                        "Rutas.ruta$numeroruta.Monumentos.monumento$nummonumentos.Breve Drescripcion" to mBinding.editTextTextMultiLine.text.toString(),
+
+                        )
+                ).addOnCompleteListener{
+
+
+                }
             }
         }
+
     }
 
     fun editarmonumento(){
@@ -556,6 +587,10 @@ setupRecyclerViewfotos()
     }
 
     override fun addruta(rutas: Rutas) {
+        TODO("Not yet implemented")
+    }
+
+    override fun borrarmonumento(fotos: Monumentos) {
         TODO("Not yet implemented")
     }
 }

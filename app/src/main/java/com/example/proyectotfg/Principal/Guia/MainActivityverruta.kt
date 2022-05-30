@@ -236,18 +236,18 @@ class MainActivityverruta : AppCompatActivity(){
         }
     }
     fun añadirnuevaruta() {
-        val email=intent.extras?.getString("email").toString()
-        var docref2=db.collection("users").document(email)
-        var docref=db.collection("users").document(email)
+        val email = intent.extras?.getString("email").toString()
+        var docref2 = db.collection("users").document(email)
+        var docref = db.collection("users").document(email)
         docref.get()
             .addOnSuccessListener {
-                var numerorutas=intent.extras?.getString("numruta")
-                var numeromonumento=it.get("Rutas.ruta$numerorutas.Num_monumentos")
+                var numerorutas = intent.extras?.getString("numruta")
+                var numeromonumento = it.get("Rutas.ruta$numerorutas.Num_monumentos")
 
 
-                var loca=""
-                if (mBinding.etNombreruta.text.isNotEmpty()){
-                    loca=mBinding.etLocalidad.text.toString()
+                var loca = ""
+                if (mBinding.etNombreruta.text.isNotEmpty()) {
+                    loca = mBinding.etLocalidad.text.toString()
                 }
                 docref2.update(
                     mapOf(
@@ -261,35 +261,10 @@ class MainActivityverruta : AppCompatActivity(){
 
                     )
                 ).addOnSuccessListener {
-                    var dialogq = MaterialAlertDialogBuilder(this).apply {
-                        setTitle("Nueva ruta")
-                        setCancelable(false)
-                        setMessage("¿Desea añadir monumentos a la ruta?")
-                        setPositiveButton("Aceptar") { _, i ->
-
-                            val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-                            var email=prefs?.getString("email",null)
-                            val intent= Intent(context, MainActivityaddmonument::class.java).apply {
-                                putExtra("nombreruta",mBinding.etNombreruta.text.toString())
-                                putExtra("email",email)
-                                putExtra("nuevaruta",0)
-                                putExtra("comproba",0)
-                            }
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                            startActivity(intent)
-                        }
-                        setNegativeButton("Cancelar"){_, i ->
-                            finish()
-                        }
-
-                    }.show()
+                    finish()
                 }
-            }
-            .addOnFailureListener{
-                finish()
-            }
 
+            }
     }
-
 
 }

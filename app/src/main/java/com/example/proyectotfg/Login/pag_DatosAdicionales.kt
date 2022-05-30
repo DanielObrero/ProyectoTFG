@@ -104,7 +104,8 @@ class pag_DatosAdicionales : AppCompatActivity() {
                         "Telefono" to telefono,
                         "Tipo de Usuario" to tipo,
                         "Num_rutas" to 0,
-                        "Num_opiniones" to 0
+                        "Num_opiniones" to 0,
+                        "Num_chat" to 0
 
                         )
                 ).addOnSuccessListener { documentReference ->
@@ -135,7 +136,8 @@ class pag_DatosAdicionales : AppCompatActivity() {
                         "Segundo Apellido" to Sapellido,
                         "Telefono" to telefono,
                         "Tipo de Usuario" to tipo,
-                        "Num_rutasfuturas" to 0
+                        "Num_rutasfuturas" to 0,
+                        "Num_chat" to 0
 
                         )
                 ).addOnSuccessListener { documentReference ->
