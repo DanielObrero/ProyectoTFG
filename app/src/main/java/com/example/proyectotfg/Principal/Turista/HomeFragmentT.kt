@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.proyectotfg.Adaptadores.RutasAdapter
+import com.example.proyectotfg.Clases.Chats
 import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
@@ -179,6 +180,10 @@ class HomeFragmentT : Fragment() , OnClickListener{
     }
 
     override fun borrarmonumento(fotos: Monumentos) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verchat(chat: Chats) {
         TODO("Not yet implemented")
     }
 }

@@ -11,10 +11,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.proyectotfg.Clases.*
 import com.example.proyectotfg.OnClickListener
 import com.example.proyectotfg.R
+import com.example.proyectotfg.databinding.ChatsBinding
 import com.example.proyectotfg.databinding.OpinionesBinding
 import com.example.proyectotfg.databinding.RutascreadasBinding
 
-class ChatsAdapter(private var opiniones:ArrayList<Chats>) :
+class ChatsAdapter(private var opiniones:ArrayList<Chats>, var listener: OnClickListener) :
 RecyclerView.Adapter<ChatsAdapter.ViewHolder>(){
 
     private lateinit var mContext:Context
@@ -23,7 +24,7 @@ RecyclerView.Adapter<ChatsAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         mContext=parent.context
 
-        val view=LayoutInflater.from(mContext).inflate(R.layout.opiniones,parent,false)
+        val view=LayoutInflater.from(mContext).inflate(R.layout.chats,parent,false)
 
         return ViewHolder(view)
     }
@@ -31,8 +32,8 @@ RecyclerView.Adapter<ChatsAdapter.ViewHolder>(){
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character=opiniones.get(position)
         with(holder){
-
-
+            setlisener(character)
+            binding.tvnombre.text=character.persona
 
 
 
@@ -47,8 +48,14 @@ RecyclerView.Adapter<ChatsAdapter.ViewHolder>(){
         notifyDataSetChanged()
     }
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val binding= OpinionesBinding.bind(view)
-
+        val binding= ChatsBinding.bind(view)
+        fun setlisener(chats: Chats){
+            with(binding.root){
+                setOnClickListener {
+                    listener.verchat(chats)
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int =opiniones.size

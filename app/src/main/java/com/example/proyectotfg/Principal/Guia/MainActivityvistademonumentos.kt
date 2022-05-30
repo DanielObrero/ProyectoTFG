@@ -11,6 +11,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.proyectotfg.Adaptadores.FotosAdapter
 import com.example.proyectotfg.Adaptadores.MonumentosAdapter
+import com.example.proyectotfg.Clases.Chats
 import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
@@ -300,5 +301,9 @@ class MainActivityvistademonumentos : AppCompatActivity() , OnClickListener{
             setNegativeButton("Cancelar",null)
             setMessage("¿Desea borrar el monumento?")
         }.show()
+    }
+
+    override fun verchat(chat: Chats) {
+        TODO("Not yet implemented")
     }
 }

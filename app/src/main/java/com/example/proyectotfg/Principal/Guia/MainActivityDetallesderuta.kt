@@ -18,6 +18,7 @@ import com.bumptech.glide.load.data.LocalUriFetcher
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.proyectotfg.Adaptadores.MonumentosAdapter
 import com.example.proyectotfg.Adaptadores.MonumentosAdapterVista
+import com.example.proyectotfg.Clases.Chats
 import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
@@ -156,11 +157,15 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
                         "Num_chat" to nuevo
                     )
                 )
-                var persona=intent.extras?.getString("email").toString()
-                val intent= Intent(this, MainActivityChat::class.java).apply {
-                    putExtra("guia",persona)
+
+                AlertDialog.Builder(this).apply {
+                    setTitle("Información")
+                    setMessage("Se ha creado la conversación en el apartado chat")
+                    setPositiveButton("Aceptar"){ _, i->
+                        finish()
+                    }
                 }
-                startActivity(intent)
+
             }
 
 
@@ -378,6 +383,10 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
     }
 
     override fun borrarmonumento(fotos: Monumentos) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verchat(chat: Chats) {
         TODO("Not yet implemented")
     }
 }

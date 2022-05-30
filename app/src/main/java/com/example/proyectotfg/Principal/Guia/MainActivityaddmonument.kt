@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.proyectotfg.Adaptadores.FotosAdapter
 import com.example.proyectotfg.Adaptadores.MonumentosAdapter
 import com.example.proyectotfg.Adaptadores.RutasAdapter
+import com.example.proyectotfg.Clases.Chats
 import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
@@ -591,6 +592,10 @@ setupRecyclerViewfotos()
     }
 
     override fun borrarmonumento(fotos: Monumentos) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verchat(chat: Chats) {
         TODO("Not yet implemented")
     }
 }

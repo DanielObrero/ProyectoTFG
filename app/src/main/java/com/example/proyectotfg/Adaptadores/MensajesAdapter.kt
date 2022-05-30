@@ -1,7 +1,11 @@
 package com.example.proyectotfg.Adaptadores
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Paint
+import android.text.Layout
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +18,10 @@ import com.example.proyectotfg.Clases.Opiniones
 import com.example.proyectotfg.Clases.Rutas
 import com.example.proyectotfg.OnClickListener
 import com.example.proyectotfg.R
+import com.example.proyectotfg.databinding.MensajesBinding
 import com.example.proyectotfg.databinding.OpinionesBinding
 import com.example.proyectotfg.databinding.RutascreadasBinding
+import java.awt.font.TextAttribute
 
 class MensajesAdapter(private var opiniones:ArrayList<Mensajes>) :
 RecyclerView.Adapter<MensajesAdapter.ViewHolder>(){
@@ -26,7 +32,7 @@ RecyclerView.Adapter<MensajesAdapter.ViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         mContext=parent.context
 
-        val view=LayoutInflater.from(mContext).inflate(R.layout.opiniones,parent,false)
+        val view=LayoutInflater.from(mContext).inflate(R.layout.mensajes,parent,false)
 
         return ViewHolder(view)
     }
@@ -36,9 +42,16 @@ RecyclerView.Adapter<MensajesAdapter.ViewHolder>(){
         with(holder){
 
             if (character.persona==character.mio){
-                //derecha
+                binding.tvmensajei.text=character.mensajes
+                binding.tvmensajed.text=""
+                binding.tvmensajed.setBackgroundColor(Color.parseColor("#C2E7FD"))
+
+
             }else{
-                //izquierda
+
+                binding.tvmensajed.text=character.mensajes
+                binding.tvmensajei.text=""
+                binding.tvmensajei.setBackgroundColor(Color.parseColor("#AAD5AC"))
             }
 
 
@@ -54,7 +67,7 @@ RecyclerView.Adapter<MensajesAdapter.ViewHolder>(){
         notifyDataSetChanged()
     }
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val binding= OpinionesBinding.bind(view)
+        val binding= MensajesBinding.bind(view)
 
     }
 

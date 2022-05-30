@@ -13,13 +13,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.proyectotfg.Adaptadores.RutasAdapter
 import com.example.proyectotfg.Adaptadores.RutasfuturasAdapter
+import com.example.proyectotfg.Clases.Chats
 import com.example.proyectotfg.Clases.Fotos
 import com.example.proyectotfg.Clases.Monumentos
 import com.example.proyectotfg.Clases.Rutas
 import com.example.proyectotfg.OnClickListener
 import com.example.proyectotfg.Principal.Guia.MainActivityDetallesderuta
 import com.example.proyectotfg.R
-import com.example.proyectotfg.databinding.FragmentHomeTBinding
 import com.example.proyectotfg.databinding.FragmentRoutesBinding
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -161,6 +161,10 @@ class RoutesFragment : Fragment() , OnClickListener{
     }
 
     override fun borrarmonumento(fotos: Monumentos) {
+        TODO("Not yet implemented")
+    }
+
+    override fun verchat(chat: Chats) {
         TODO("Not yet implemented")
     }
 
