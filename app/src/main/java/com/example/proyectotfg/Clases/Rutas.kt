@@ -10,5 +10,5 @@ class Rutas(
     val localidad:String,
     val kms:String,
     val numruta:String,
-    var email:String=""
+    var email:String
         )

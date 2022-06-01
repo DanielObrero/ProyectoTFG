@@ -49,7 +49,7 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
         if (turista==1){
             mBinding.tvdatoguia.visibility=View.VISIBLE
             mBinding.tvNombredeguia.visibility=View.VISIBLE
-            mBinding.tvNombredeguia.text=intent.extras?.getString("email")
+            mBinding.tvNombredeguia.text=intent.extras?.getString("emailguia")
             mBinding.textView24.visibility=View.VISIBLE
             mBinding.layoutopinion.visibility=View.VISIBLE
             mBinding.btnmensaje.visibility=View.VISIBLE
@@ -87,7 +87,7 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
     fun crearchatmio(){
         val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         var email=prefs?.getString("email",null)
-        var guia=intent.extras?.getString("email").toString()
+        var guia=intent.extras?.getString("emailguia").toString()
         Log.d("guia",guia)
 
         db.collection("users").document(email!!).get().addOnSuccessListener {
@@ -133,7 +133,7 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
     fun crearchatguia(){
         val prefs=getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         var email=prefs?.getString("email",null)
-        var guia=intent.extras?.getString("guia").toString()
+        var guia=intent.extras?.getString("emailguia").toString()
         Log.d("guia",guia)
 
         db.collection("users").document(guia).get().addOnSuccessListener {
@@ -178,7 +178,7 @@ class MainActivityDetallesderuta : AppCompatActivity() ,OnClickListener{
 
 
     private fun Comprobar() {
-        var email=intent.extras?.getString("email").toString()
+        var email=intent.extras?.getString("emailguia").toString()
 
         var numruta=intent.extras?.getString("numruta").toString()
         var nombreruta=intent.extras?.getString("nombreruta").toString()

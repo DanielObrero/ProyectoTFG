@@ -44,16 +44,7 @@ class RoutesFragment : Fragment() , OnClickListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        object : CountDownTimer(1000,1000){
-            override fun onTick(p0: Long) {
 
-            }
-
-            override fun onFinish() {
-                setupRecyclerViewT()
-            }
-
-        }.start()
 
         mBinding.button.setOnClickListener {
             setupRecyclerViewT()
@@ -141,6 +132,7 @@ class RoutesFragment : Fragment() , OnClickListener{
     override fun editarruta(rutas: Rutas) {
         val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         var email=prefs?.getString("email",null)
+        Log.d("prefence",email.toString())
         var intent= Intent(context, MainActivityDetallesderuta::class.java).apply {
             putExtra("nombreruta",rutas.titulo)
             putExtra("etprovincia",rutas.provincia)
@@ -148,7 +140,7 @@ class RoutesFragment : Fragment() , OnClickListener{
             putExtra("etlugardeinicio",rutas.lugardeinicio)
             putExtra("localidad",rutas.localidad)
             putExtra("numruta",rutas.numruta)
-            putExtra("email",rutas.email)
+            putExtra("emailguia",rutas.email)
             putExtra("persona",email)
             putExtra("turista",1)
         }

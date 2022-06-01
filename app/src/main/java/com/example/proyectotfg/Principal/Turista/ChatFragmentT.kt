@@ -45,16 +45,7 @@ class ChatFragmentT : Fragment() ,OnClickListener{
         mBinding.btnactualizar.setOnClickListener {
             setupRecyclerViewT()
         }
-        object : CountDownTimer(1000,1000){
-            override fun onTick(p0: Long) {
 
-            }
-
-            override fun onFinish() {
-                setupRecyclerViewT()
-            }
-
-        }.start()
 
 
     }
@@ -78,12 +69,10 @@ class ChatFragmentT : Fragment() ,OnClickListener{
         listarutas.clear()
         val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         var email=prefs?.getString("email",null)
-        var numjuego:Int=0
-
-
-                val docRef = db.collection("users").document(email!!)
-                docRef.get()
-                    .addOnSuccessListener { document ->
+        Log.d("fallo",email.toString())
+        val docRef = db.collection("users").document(email!!)
+        docRef.get()
+            .addOnSuccessListener { document ->
 
 
                             var numchat=document.get("Num_chat") as Long

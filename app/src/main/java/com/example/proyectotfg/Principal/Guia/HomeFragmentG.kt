@@ -181,7 +181,7 @@ class HomeFragmentG : Fragment(),OnClickListener {
                             document.get("Rutas.ruta$cont.Lugar de inicio").toString(),
                             document.get("Rutas.ruta$cont.Provincia").toString(),
                             document.get("Rutas.ruta$cont.Localidad").toString(),
-                            document.get("Rutas.ruta$cont.Kms").toString(),cont.toString())
+                            document.get("Rutas.ruta$cont.Kms").toString(),cont.toString(),email)
 
                         listarutas.add(rutas)
                     }
