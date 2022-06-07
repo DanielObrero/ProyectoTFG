@@ -24,7 +24,7 @@
             android:layout_marginBottom="65dp"
             android:clipToPadding="false"
             android:paddingBottom="16dp"
-            tools:listitem="@layout/rutasfuturascreadas">
+            tools:listitem="@layout/opiniones">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
