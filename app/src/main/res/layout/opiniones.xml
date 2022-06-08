@@ -52,13 +52,15 @@
                 android:longClickable="false"
                 android:max="5"
                 android:nestedScrollingEnabled="false"
-                android:numStars="5" />
+                android:numStars="5"
+                android:progressTint="#FFDD00"
+                android:secondaryProgressTint="#FFDD00" />
 
             <TextView
                 android:id="@+id/tvvalor"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:text="0/5"

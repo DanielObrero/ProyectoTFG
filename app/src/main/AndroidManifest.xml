@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.proyectotfg">
+    package="com.proyecto.proyectotfg">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,37 +13,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoTFG">
         <activity
-            android:name=".Principal.Turista.MainActivityChat"
+            android:name="com.proyecto.proyectotfg.Principal.Turista.MainActivityChat"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MainActivityDetallesderuta"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MainActivityDetallesderuta"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MainActivityverruta"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MainActivityverruta"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MainActivityvistademonumentos"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MainActivityvistademonumentos"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MainActivityaddmonument"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MainActivityaddmonument"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MainActivityadd"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MainActivityadd"
             android:exported="false" />
         <activity
-            android:name=".Principal.Guia.MenuActivityG"
+            android:name="com.proyecto.proyectotfg.Principal.Guia.MenuActivityG"
             android:exported="false" />
         <activity
-            android:name=".Principal.Turista.MenuActivityT"
+            android:name="com.proyecto.proyectotfg.Principal.Turista.MenuActivityT"
             android:exported="false" />
         <activity
-            android:name=".Login.pag_DatosAdicionales"
+            android:name="com.proyecto.proyectotfg.Login.pag_DatosAdicionales"
             android:exported="false" />
         <activity
-            android:name=".Login.pag_Registro"
+            android:name="com.proyecto.proyectotfg.Login.pag_Registro"
             android:exported="false" />
         <activity
-            android:name=".Login.MainActivity"
+            android:name="com.proyecto.proyectotfg.Login.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

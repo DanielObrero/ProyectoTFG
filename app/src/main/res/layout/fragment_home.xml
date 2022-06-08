@@ -43,24 +43,37 @@
         android:id="@+id/clGuia"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
         android:visibility="visible">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewG"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginBottom="65dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiplayoutg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="78dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="2"
-            tools:listitem="@layout/rutascreadas">
+            app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewG"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginBottom="65dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2"
+                tools:listitem="@layout/rutascreadas">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
@@ -79,25 +92,38 @@
         android:id="@+id/clTurista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="8dp"
         android:visibility="gone">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewT"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="65dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            android:visibility="visible"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiplayoutt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="78dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:spanCount="2"
-            tools:listitem="@layout/rutascreadas">
+            app:layout_constraintTop_toTopOf="parent">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewT"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="65dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2"
+                tools:listitem="@layout/rutascreadas">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

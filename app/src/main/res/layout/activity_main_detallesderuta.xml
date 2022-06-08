@@ -193,7 +193,9 @@
                     android:layout_marginStart="24dp"
                     android:max="5"
                     android:numStars="5"
-                    android:rating="0" />
+                    android:progressTint="#FFDD00"
+                    android:rating="0"
+                    android:secondaryProgressTint="#FFDD00" />
 
                 <Button
                     android:id="@+id/btnopinar"

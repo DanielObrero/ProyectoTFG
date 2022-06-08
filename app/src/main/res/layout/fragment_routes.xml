@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
         android:orientation="vertical">
 
         <Button
@@ -17,16 +18,22 @@
             android:layout_margin="8dp"
             android:text="Actualizar" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swiplayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="65dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            tools:listitem="@layout/rutasfuturascreadas">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="68dp">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                tools:listitem="@layout/rutasfuturascreadas"></androidx.recyclerview.widget.RecyclerView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     </LinearLayout>
 
 </FrameLayout>

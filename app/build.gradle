@@ -9,11 +9,11 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.proyectotfg"
+        applicationId 'com.proyecto.proyectotfg'
         minSdk 21
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,16 +38,17 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.1'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.3'
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.5'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
-    implementation 'com.google.firebase:firebase-database-ktx:20.0.4'
+    implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-auth:21.0.5'
     def roomVersion = "2.4.2"
     def anko_version= "0.10.8"
     implementation("androidx.room:room-runtime:$roomVersion")
