@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -68,41 +70,54 @@ var compro=0
 
 
         mBinding.btnguardarmonumento.setOnClickListener {
-            if (mBinding.editTextTextPersonName2.text.isNotEmpty()){
-                if (mBinding.editTextNumber.text.isNotEmpty()){
-                    if (mBinding.editTextTextMultiLine.text.isNotEmpty()){
+            if (mBinding.progressBar3.isVisible){
+                Toast.makeText(this,"Espere a que se suba la foto", Toast.LENGTH_SHORT).show()
+            }else{
+                if (mBinding.editTextTextPersonName2.text.isNotEmpty()){
+                    if (mBinding.editTextNumber.text.isNotEmpty()){
+                        if (mBinding.editTextTextMultiLine.text.isNotEmpty()){
 
 
-                        var nuevaruta=intent.extras?.getInt("nuevaruta")!!
+                            var nuevaruta=intent.extras?.getInt("nuevaruta")!!
 
-                        if (nuevaruta==0){
-                            guardarmonumento()
-                        }else{
-                            var comproadd= intent.extras?.getInt("comproadd")!!
-                            if (comproadd==0){
-                                editarmonumento()
+                            if (nuevaruta==0){
+                                guardarmonumento()
                             }else{
-                                guardarmonumento2()
+                                var comproadd= intent.extras?.getInt("comproadd")!!
+                                if (comproadd==0){
+                                    editarmonumento()
+                                }else{
+                                    guardarmonumento2()
+                                }
+
+
                             }
+                            var numruta=intent.extras?.getString("numruta")
+                            var email=intent.extras?.getString("email")
+                            val intent= Intent(this, MainActivityvistademonumentos::class.java).apply {
+                                putExtra("email",email)
+                                putExtra("comproba",nuevaruta)
+                                putExtra("numruta",numruta)
+                                putExtra("nuevaruta",nuevaruta)
+                            }
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                            startActivity(intent)
 
+                        }else{
+                            var dialogq = MaterialAlertDialogBuilder(this).apply {
+                                setTitle("Info")
+                                setCancelable(false)
+                                setMessage("El campo Breve descripción de ruta no puede estar vacio")
+                                setPositiveButton("Aceptar") { _, i ->
+                                }
 
+                            }.show()
                         }
-                        var numruta=intent.extras?.getString("numruta")
-                        var email=intent.extras?.getString("email")
-                        val intent= Intent(this, MainActivityvistademonumentos::class.java).apply {
-                            putExtra("email",email)
-                            putExtra("comproba",nuevaruta)
-                            putExtra("numruta",numruta)
-                            putExtra("nuevaruta",nuevaruta)
-                        }
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                        startActivity(intent)
-
                     }else{
                         var dialogq = MaterialAlertDialogBuilder(this).apply {
                             setTitle("Info")
                             setCancelable(false)
-                            setMessage("El campo Breve descripción de ruta no puede estar vacio")
+                            setMessage("El campo fecha de construcción no puede estar vacio")
                             setPositiveButton("Aceptar") { _, i ->
                             }
 
@@ -112,27 +127,20 @@ var compro=0
                     var dialogq = MaterialAlertDialogBuilder(this).apply {
                         setTitle("Info")
                         setCancelable(false)
-                        setMessage("El campo fecha de construcción no puede estar vacio")
+                        setMessage("El campo Nombre de monumento no puede estar vacio")
                         setPositiveButton("Aceptar") { _, i ->
                         }
 
                     }.show()
                 }
-            }else{
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Info")
-                    setCancelable(false)
-                    setMessage("El campo Nombre de monumento no puede estar vacio")
-                    setPositiveButton("Aceptar") { _, i ->
-                    }
-
-                }.show()
             }
+
 
         }
 
 
             mBinding.btnaddportadamonuemto.setOnClickListener {
+
                 if (mBinding.editTextTextPersonName2.text.isNotEmpty()){
                     var nombreruta=intent.extras?.getString("nombreruta").toString()
 
@@ -155,42 +163,7 @@ var compro=0
 
             }
 
-        mBinding.btnverfotos.setOnClickListener {
-            if (fotosvista==0){
-                mBinding.layoutdatos.visibility=View.GONE
-                mBinding.layoutportada.visibility=View.GONE
-                mBinding.recyclerViewfotos.visibility=View.VISIBLE
-                mBinding.btnverfotos.text="VER DATOS"
-                fotosvista=1
-            }
-            else if (fotosvista==1){
-                mBinding.layoutdatos.visibility=View.VISIBLE
-                mBinding.layoutportada.visibility=View.VISIBLE
-                mBinding.recyclerViewfotos.visibility=View.GONE
-                mBinding.btnverfotos.text="VER FOTOS"
-                fotosvista=0
-            }
 
-
-        }
-        mBinding.btnaddfoto.setOnClickListener {
-            if (mBinding.editTextTextPersonName2.text.isNotEmpty()){
-                var nombreruta=intent.extras?.getString("nombreruta").toString()
-                portada=1
-                openGallery()
-                setupFirebase()
-            }else{
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Nueva ruta")
-                    setCancelable(false)
-                    setMessage("Para añadir una nueva foto, el campo Nombre de monumento debe estar relleno")
-                    setPositiveButton("Aceptar",null)
-                    setNegativeButton("Cancelar",null)
-
-                }.show()
-            }
-
-        }
     }
 
     private fun guardarmonumento2() {
@@ -342,16 +315,19 @@ var compro=0
 
                 myStorageRef.putFile(mPhotoSelectedUri!!)
                     .addOnProgressListener {
-
-
-                    }
-                    .addOnCompleteListener {
+                        mBinding.imgportadamonument.visibility= View.INVISIBLE
+                        mBinding.progressBar3.visibility= View.VISIBLE
                         var comproba=intent.extras?.getInt("comproba")
                         if(comproba==0){
                             cambiarimagen()
                         }else{
                             cambiarimagen2()
                         }
+
+                    }
+                    .addOnCompleteListener {
+                        mBinding.imgportadamonument.visibility= View.VISIBLE
+                        mBinding.progressBar3.visibility= View.GONE
 
 
                     }
@@ -385,7 +361,7 @@ var compro=0
 
                         }
                         .addOnCompleteListener {
-                        mBinding.btnverfotos.visibility=View.VISIBLE
+
                         setupRecyclerViewfotos()
 
 

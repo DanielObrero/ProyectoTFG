@@ -9,7 +9,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.proyecto.proyectotfg.FotoPerfil.SnapshotsApplication
@@ -20,6 +22,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import org.jetbrains.anko.toast
 
 class MainActivityadd : AppCompatActivity() {
     var email2:String?=null
@@ -68,47 +71,52 @@ class MainActivityadd : AppCompatActivity() {
         }
         //cambiarimagen(email)
         mBinding.btnportada.setOnClickListener {
-            if (mBinding.etNombreruta.text.isNotEmpty()){
+
+
                 setupFirebase(email?:"")
                 openGallery(email?:"")
-            }else{
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Info")
-                    setCancelable(false)
-                    setMessage("El Nombre de ruta no puede estar vacio, para poder cambiar o añadir una foto a la portada")
-                    setPositiveButton("Aceptar") { _, i ->
-                    }
 
-                }.show()
-            }
 
         }
         mBinding.btnguardar.setOnClickListener {
-            if (mBinding.etNombreruta.text.isNotEmpty()){
-                if (mBinding.etlugarinicio.text.isNotEmpty()){
-                    if (mBinding.etkms.text.isNotEmpty()){
-                        if (mBinding.etProvincia.text.isNotEmpty()){
-                            if (mBinding.checkBox.isChecked){
-                                if (mBinding.etLocalidad.text.isNotEmpty()){
-                                    añadirnuevaruta()
-                                }else{
-                                    var dialogq = MaterialAlertDialogBuilder(this).apply {
-                                        setTitle("Info")
-                                        setCancelable(false)
-                                        setMessage("El campo Localidad no puede estar vacio")
-                                        setPositiveButton("Aceptar") { _, i ->
-                                        }
+            if (mBinding.progressBar4.isVisible){
+                Toast.makeText(this,"Espere a que se suba la foto",Toast.LENGTH_SHORT).show()
+            }else{
+                if (mBinding.etNombreruta.text.isNotEmpty()){
+                    if (mBinding.etlugarinicio.text.isNotEmpty()){
+                        if (mBinding.etkms.text.isNotEmpty()){
+                            if (mBinding.etProvincia.text.isNotEmpty()){
+                                if (mBinding.checkBox.isChecked){
+                                    if (mBinding.etLocalidad.text.isNotEmpty()){
+                                        añadirnuevaruta()
+                                    }else{
+                                        var dialogq = MaterialAlertDialogBuilder(this).apply {
+                                            setTitle("Info")
+                                            setCancelable(false)
+                                            setMessage("El campo Localidad no puede estar vacio")
+                                            setPositiveButton("Aceptar") { _, i ->
+                                            }
 
-                                    }.show()
+                                        }.show()
+                                    }
+                                }else{
+                                    añadirnuevaruta()
                                 }
                             }else{
-                                añadirnuevaruta()
+                                var dialogq = MaterialAlertDialogBuilder(this).apply {
+                                    setTitle("Info")
+                                    setCancelable(false)
+                                    setMessage("El campo Provincia no puede estar vacio")
+                                    setPositiveButton("Aceptar") { _, i ->
+                                    }
+
+                                }.show()
                             }
                         }else{
                             var dialogq = MaterialAlertDialogBuilder(this).apply {
                                 setTitle("Info")
                                 setCancelable(false)
-                                setMessage("El campo Provincia no puede estar vacio")
+                                setMessage("El campo Kms de ruta no puede estar vacio")
                                 setPositiveButton("Aceptar") { _, i ->
                                 }
 
@@ -118,33 +126,25 @@ class MainActivityadd : AppCompatActivity() {
                         var dialogq = MaterialAlertDialogBuilder(this).apply {
                             setTitle("Info")
                             setCancelable(false)
-                            setMessage("El campo Kms de ruta no puede estar vacio")
+                            setMessage("El campo Lugar de inicio no puede estar vacio")
                             setPositiveButton("Aceptar") { _, i ->
                             }
 
                         }.show()
                     }
+
                 }else{
                     var dialogq = MaterialAlertDialogBuilder(this).apply {
                         setTitle("Info")
                         setCancelable(false)
-                        setMessage("El campo Lugar de inicio no puede estar vacio")
+                        setMessage("El campo Nombre de ruta no puede estar vacio")
                         setPositiveButton("Aceptar") { _, i ->
                         }
 
                     }.show()
                 }
-
-            }else{
-                var dialogq = MaterialAlertDialogBuilder(this).apply {
-                    setTitle("Info")
-                    setCancelable(false)
-                    setMessage("El campo Nombre de ruta no puede estar vacio")
-                    setPositiveButton("Aceptar") { _, i ->
-                    }
-
-                }.show()
             }
+
 
         }
 
@@ -192,12 +192,15 @@ class MainActivityadd : AppCompatActivity() {
 
             myStorageRef.putFile(mPhotoSelectedUri!!)
                 .addOnProgressListener {
-
+                    mBinding.imgportadruta.visibility=View.INVISIBLE
+                    mBinding.progressBar4.visibility=View.VISIBLE
+                    cambiarimagen(email)
 
                 }
                 .addOnCompleteListener {
+                    mBinding.imgportadruta.visibility=View.VISIBLE
+                    mBinding.progressBar4.visibility=View.GONE
 
-                    cambiarimagen(email)
 
                 }
                 .addOnSuccessListener {

@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.proyecto.proyectotfg.FotoPerfil.SnapshotsApplication
@@ -71,13 +74,17 @@ class MainActivityverruta : AppCompatActivity(){
             startActivity(intent)
         }
         mBinding.btnportada.setOnClickListener {
+
             setupFirebase(email!!)
             openGallery(email)
 
         }
 
         mBinding.btnguardar.setOnClickListener {
-            var i=intent.extras?.getInt("acabado",0)
+            if (mBinding.progressBar5.isVisible){
+                Toast.makeText(this,"Espere a que se suba la foto", Toast.LENGTH_SHORT).show()
+            }else{
+                var i=intent.extras?.getInt("acabado",0)
 
                 if (mBinding.etNombreruta.text.isNotEmpty()) {
                     if (mBinding.etlugarinicio.text.isNotEmpty()) {
@@ -143,6 +150,8 @@ class MainActivityverruta : AppCompatActivity(){
 
 
             }
+            }
+
 
 
 
@@ -197,12 +206,14 @@ class MainActivityverruta : AppCompatActivity(){
 
             myStorageRef.putFile(mPhotoSelectedUri!!)
                 .addOnProgressListener {
-
+                    mBinding.imgportadruta.visibility= View.INVISIBLE
+                    mBinding.progressBar5.visibility= View.VISIBLE
+                    cambiarimagen(email)
 
                 }
                 .addOnCompleteListener {
-
-                    cambiarimagen(email)
+                    mBinding.imgportadruta.visibility= View.VISIBLE
+                    mBinding.progressBar5.visibility= View.GONE
 
                 }
                 .addOnSuccessListener {

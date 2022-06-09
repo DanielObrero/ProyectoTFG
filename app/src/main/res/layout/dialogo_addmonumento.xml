@@ -122,28 +122,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnverfotos"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="1"
-                android:text="Ver fotos"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btnaddfoto"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/purple_500"
-                android:text="Añadir fotos" />
-
-        </LinearLayout>
+            android:orientation="horizontal"/>
 
         <Button
             android:id="@+id/btnguardarmonumento"
@@ -152,5 +131,16 @@
             android:text="Guardar" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="112dp"
+        android:layout_height="101dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="40dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -216,6 +216,7 @@ class ProfileFragmentT : Fragment() {
                 .addOnProgressListener {
                     mBinding.imageButton.visibility=View.INVISIBLE
                     mBinding.progressBar2.visibility=View.VISIBLE
+                    cambiarimagen(email)
 
                 }
                 .addOnCompleteListener {
@@ -224,15 +225,7 @@ class ProfileFragmentT : Fragment() {
 
                 }
                 .addOnSuccessListener {
-                    object : CountDownTimer(1000,1000){
-                        override fun onTick(p0: Long) {
 
-                        }
-
-                        override fun onFinish() {
-                            cambiarimagen(email)
-                        }
-                    }
                 }
                 .addOnFailureListener {
 
