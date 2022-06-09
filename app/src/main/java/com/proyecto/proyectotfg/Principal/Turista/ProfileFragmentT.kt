@@ -73,17 +73,10 @@ class ProfileFragmentT : Fragment() {
             cambiodecontraseña(email?:"")
         }
         mBinding.imageButton.setOnClickListener {
-            var dialogq = MaterialAlertDialogBuilder(requireContext()).apply {
-                setTitle("Advertencia")
-                setCancelable(false)
-                setMessage("Si desea cambiar la foto, debe de saber que tiene que reiniciar la aplicacion o cerrar sesión para aplicar los cambios")
-                setPositiveButton("Aceptar") { _, i ->
+
                     setupFirebase(email?:"")
                     openGallery(email?:"")
-                }
-                setNegativeButton("Cancelar",null)
 
-            }.show()
 
 
 
