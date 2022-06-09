@@ -1,6 +1,7 @@
 package com.proyecto.proyectotfg.Principal.Turista
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.content.Intent
@@ -76,15 +77,47 @@ class ProfileFragmentT : Fragment() {
 
                     setupFirebase(email?:"")
                     openGallery(email?:"")
-
-
-
-
-
-
-
         }
-
+        mBinding.btnManual.setOnClickListener {
+                val dialog = layoutInflater.inflate(R.layout.botonesmanualt, null)
+                var dial = AlertDialog.Builder(requireContext()).apply {
+                    setTitle("Ayuda para el usuario")
+                    setPositiveButton("Cerrar", null)
+                    setView(dialog)
+                    dialog.findViewById<Button>(R.id.btninicio).setOnClickListener {
+                        val dialogi = layoutInflater.inflate(R.layout.ayudahomet, null)
+                        var dia = AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Ayuda de turista")
+                            setView(dialogi)
+                            setPositiveButton("Cerrar",null)
+                        }.show()
+                    }
+                    dialog.findViewById<Button>(R.id.btnchats).setOnClickListener {
+                        val dialogc = layoutInflater.inflate(R.layout.ayudachat, null)
+                        var dia = AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Ayuda de turista")
+                            setView(dialogc)
+                            setPositiveButton("Cerrar",null)
+                        }.show()
+                    }
+                    dialog.findViewById<Button>(R.id.btnopiniones).setOnClickListener {
+                        val dialogo = layoutInflater.inflate(R.layout.ayudarutasfuturas, null)
+                        var dia = AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Ayuda de turista")
+                            setView(dialogo)
+                            setPositiveButton("Cerrar",null)
+                        }.show()
+                    }
+                    dialog.findViewById<Button>(R.id.btnperfil).setOnClickListener {
+                        val dialop = layoutInflater.inflate(R.layout.ayudaperfil, null)
+                        var dia = AlertDialog.Builder(requireContext()).apply {
+                            setTitle("Ayuda de turista")
+                            setView(dialop)
+                            setPositiveButton("Cerrar",null)
+                        }.show()
+                    }
+                }.show()
+            }
     }
 
     fun cambiodecontraseña(email:String){

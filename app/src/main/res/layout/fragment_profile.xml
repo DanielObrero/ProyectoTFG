@@ -99,6 +99,15 @@
                 android:layout_marginEnd="16dp"
                 android:text="Cerrar Sesión" />
 
+            <Button
+                android:id="@+id/btnManual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="Abrir Manual" />
+
         </LinearLayout>
     </ScrollView>
 

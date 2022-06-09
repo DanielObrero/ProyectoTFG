@@ -1,6 +1,7 @@
 package com.proyecto.proyectotfg.Principal.Guia
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.content.Intent
@@ -13,8 +14,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.proyecto.proyectotfg.Login.MainActivity
@@ -61,14 +64,79 @@ class ProfileFragmentG : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val prefs=activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        var email=prefs?.getString("email",null)
-        email2=email
-        cerrarsesion(email?:"")
-        cargardatos(email?:"")
+        val prefs =
+            activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        var email = prefs?.getString("email", null)
+        email2 = email
+        cerrarsesion(email ?: "")
+        cargardatos(email ?: "")
 
-        cambiarimagen(email?:"")
+        cambiarimagen(email ?: "")
+        mBinding.btnManual.setOnClickListener {
+                    val dialog = layoutInflater.inflate(R.layout.botonesmanual, null)
+                    var dial = AlertDialog.Builder(requireContext()).apply {
+                        setTitle("Ayuda para el usuario")
+                        setPositiveButton("Cerrar", null)
+                        setView(dialog)
+                        dialog.findViewById<Button>(R.id.btninicio).setOnClickListener {
+                            val dialogi = layoutInflater.inflate(R.layout.ayudahome, null)
+                            var dia = AlertDialog.Builder(requireContext()).apply {
+                                setTitle("Ayuda de Guía")
+                                setView(dialogi)
+                                setPositiveButton("Cerrar",null)
+                                dialogi.findViewById<Button>(R.id.btng).setOnClickListener {
+                                    dialogi.findViewById<Button>(R.id.btng).isEnabled = false
+                                    dialogi.findViewById<Button>(R.id.btnturista).isEnabled = true
+                                    dialogi.findViewById<LinearLayout>(R.id.layoutguia).visibility =
+                                        View.VISIBLE
+                                    dialogi.findViewById<LinearLayout>(R.id.layoutturista).visibility =
+                                        View.GONE
+                                }
+                                dialogi.findViewById<Button>(R.id.btnturista).setOnClickListener {
+                                    dialogi.findViewById<Button>(R.id.btnturista).isEnabled = false
+                                    dialogi.findViewById<Button>(R.id.btng).isEnabled = true
+                                    dialogi.findViewById<LinearLayout>(R.id.layoutguia).visibility =
+                                        View.GONE
+                                    dialogi.findViewById<LinearLayout>(R.id.layoutturista).visibility =
+                                        View.VISIBLE
+                                }
+                            }.show()
+                        }
+                        dialog.findViewById<Button>(R.id.btnchats).setOnClickListener {
+                            val dialogc = layoutInflater.inflate(R.layout.ayudachat, null)
+                            var dia = AlertDialog.Builder(requireContext()).apply {
+                                setTitle("Ayuda de Guía")
+                                setView(dialogc)
+                                setPositiveButton("Cerrar",null)
+                            }.show()
+                        }
+                        dialog.findViewById<Button>(R.id.btnopiniones).setOnClickListener {
+                            val dialogo = layoutInflater.inflate(R.layout.ayudaopiniones, null)
+                            var dia = AlertDialog.Builder(requireContext()).apply {
+                                setTitle("Ayuda de Guía")
+                                setView(dialogo)
+                                setPositiveButton("Cerrar",null)
+                            }.show()
+                        }
+                        dialog.findViewById<Button>(R.id.btnperfil).setOnClickListener {
+                            val dialop = layoutInflater.inflate(R.layout.ayudaperfil, null)
+                            var dia = AlertDialog.Builder(requireContext()).apply {
+                                setTitle("Ayuda de Guía")
+                                setView(dialop)
+                                setPositiveButton("Cerrar",null)
+                            }.show()
+                        }
+                    }.show()
 
+
+
+
+
+
+
+
+
+        }
         mBinding.btnCambiarPass.setOnClickListener{
             cambiodecontraseña(email?:"")
         }

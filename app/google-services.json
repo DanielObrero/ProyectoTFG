@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "630915479165",
+    "firebase_url": "https://proyectotfg-87d7e-default-rtdb.firebaseio.com",
     "project_id": "proyectotfg-87d7e",
     "storage_bucket": "proyectotfg-87d7e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:630915479165:android:fb8d7b84b3ac29856aa314",
+        "mobilesdk_app_id": "1:630915479165:android:ce7e7d55baa626436aa314",
         "android_client_info": {
           "package_name": "com.proyecto.proyectotfg"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "630915479165-vs5rondsnhler8eu9eoonft41jvb6527.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.proyecto.proyectotfg",
+            "certificate_hash": "8d6fffaf35d04c21ef4a96db83d5ed608b9d0e1a"
+          }
+        },
         {
           "client_id": "630915479165-n7rff65cs04rnrql6ekp3ocu11uiji8r.apps.googleusercontent.com",
           "client_type": 3
